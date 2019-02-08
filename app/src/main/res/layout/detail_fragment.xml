@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="step"
+            type="com.example.android.baking.data.struct.StepDb" />
+
+        <variable
+            name="masterDetailFragmentViewModel"
+            type="com.example.android.baking.ui.masterdetail.MasterDetailFragmentViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_master_items"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scrollbars="horizontal"
+            android:paddingBottom="@{safeUnbox(masterDetailFragmentViewModel.getTwoPaneLiveData()) ? @dimen/master_padding : @dimen/space_above_detail_slider_scrollbar}"
+            android:paddingStart="@dimen/master_padding"
+            android:paddingEnd="@dimen/master_padding"
+            android:paddingTop="@dimen/master_padding"
+            android:scrollbarStyle="outsideOverlay"
+            android:clipToPadding="false"
+            style="@style/myscrollbar"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bt_previous" />
+
+        <Button
+            android:id="@+id/bt_previous"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="&lt; Previous"
+            android:layout_marginBottom="@dimen/master_padding"
+            android:layout_marginStart="@dimen/master_padding"
+            android:layout_marginTop="@dimen/space_below_detail_slider_scrollbar"
+            android:onClick="@{() -> masterDetailFragmentViewModel.moveStep(false)}"
+            android:enabled="@{safeUnbox(masterDetailFragmentViewModel.getPreviousItemAvailableLiveData())}"
+            android:visibility="@{safeUnbox(masterDetailFragmentViewModel.getTwoPaneLiveData()) ? View.GONE : View.VISIBLE}"
+
+            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerview_master_items"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Next &gt;"
+            android:layout_marginEnd="@dimen/master_padding"
+            android:onClick="@{() -> masterDetailFragmentViewModel.moveStep(true)}"
+            android:enabled="@{safeUnbox(masterDetailFragmentViewModel.getNextItemAvailableLiveData())}"
+            android:visibility="@{safeUnbox(masterDetailFragmentViewModel.getTwoPaneLiveData()) ? View.GONE : View.VISIBLE}"
+
+            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/bt_previous"
+            app:layout_constraintBottom_toBottomOf="@id/bt_previous" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

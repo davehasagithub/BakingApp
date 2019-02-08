@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <ImageButton android:id="@id/exo_play"
+                 android:layout_width="50dp"
+                 android:layout_height="50dp"
+                 android:layout_gravity="center"
+                 android:background="#CC000000"
+                 style="@style/ExoMediaButton.Play"/>
+
+    <ImageButton android:id="@id/exo_pause"
+                 android:layout_width="50dp"
+                 android:layout_height="50dp"
+                 android:layout_gravity="center"
+                 android:background="#CC000000"
+                 style="@style/ExoMediaButton.Pause"/>
+
+</FrameLayout>
+-->
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@id/exo_play"
+        android:layout_width="@dimen/exo_play_button_size"
+        android:layout_height="@dimen/exo_play_button_size"
+        android:background="#CC000000"
+        style="@style/ExoMediaButton.Play"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageButton
+        android:id="@id/exo_pause"
+        android:layout_width="@dimen/exo_play_button_size"
+        android:layout_height="@dimen/exo_play_button_size"
+        android:background="#CC000000"
+        style="@style/ExoMediaButton.Pause"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <com.google.android.exoplayer2.ui.DefaultTimeBar
+        android:id="@id/exo_progress"
+        android:layout_width="0dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="@dimen/master_padding"
+        android:layout_marginEnd="@dimen/master_padding"
+        android:layout_marginBottom="@dimen/master_padding"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="master_padding">16dp</dimen>
+
+    <dimen name="exo_play_button_size">40dp</dimen>
+    <dimen name="space_above_detail_slider_scrollbar">8dp</dimen>
+    <dimen name="space_below_detail_slider_scrollbar">8dp</dimen>
+
+    <dimen name="scrollbar_size">4dp</dimen>
+</resources>
