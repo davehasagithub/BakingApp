@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_recipes"
+    <data>
+
+        <import type="com.example.android.baking.data.struct.RecipeLoadStatus" />
+
+        <variable
+            name="mainActivityViewModel"
+            type="com.example.android.baking.ui.main.MainActivityViewModel" />
+
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        style="@style/myscrollbar" />
+        app:refreshing="@{safeUnbox(mainActivityViewModel.statusLiveData == RecipeLoadStatus.LOADING)}"
+        app:onRefreshListener="@{() -> mainActivityViewModel.onRetryButtonClick()}">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_recipes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            style="@style/recipe_scrollbar" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>

@@ -13,8 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00999999">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tv_ingredient"
@@ -23,7 +22,7 @@
             android:gravity="start|center_vertical"
             android:ellipsize="end"
             android:text='@{ingredient.getCombinedDescription(context)}'
-            android:textColor="#ffffffff"
+            android:textColor="@color/ingredientsScreenTextColor"
 
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

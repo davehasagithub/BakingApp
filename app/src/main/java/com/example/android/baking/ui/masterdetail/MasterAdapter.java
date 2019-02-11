@@ -1,5 +1,6 @@
 package com.example.android.baking.ui.masterdetail;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -7,15 +8,15 @@ import android.view.ViewGroup;
 
 import com.example.android.baking.R;
 import com.example.android.baking.data.struct.MasterItem;
-import com.example.android.baking.ui.masterdetail.MasterAdapter.ViewHolder;
 import com.example.android.baking.data.struct.MasterItem.MasterItemStep;
+import com.example.android.baking.databinding.SharedMasterRowBinding;
+import com.example.android.baking.ui.masterdetail.MasterAdapter.ViewHolder;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
-import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,16 +42,7 @@ public class MasterAdapter extends ListAdapter<MasterItem, ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        int layoutId;
-        if (viewType == VIEW_TYPE_INGREDIENTS_BUTTON) {
-            layoutId = R.layout.ingredients_button_row;
-        } else if (viewType == VIEW_TYPE_STEP) {
-            layoutId = R.layout.master_row;
-        } else {
-            throw new IllegalArgumentException("unhandled view type " + viewType);
-        }
-
-        return new ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()), layoutId, viewGroup, false));
+        return new ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()), R.layout.shared_master_row, viewGroup, false));
     }
 
     @Override
@@ -59,9 +51,9 @@ public class MasterAdapter extends ListAdapter<MasterItem, ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-        final ViewDataBinding binding;
+        final SharedMasterRowBinding binding;
 
-        ViewHolder(ViewDataBinding binding) {
+        ViewHolder(SharedMasterRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             binding.getRoot().setOnClickListener(this);
@@ -93,16 +85,23 @@ public class MasterAdapter extends ListAdapter<MasterItem, ViewHolder> {
 
     private void updateBackgroundColor(ViewHolder viewHolder, int position) {
         boolean selected = (masterAdapterCallback != null && masterAdapterCallback.isActivePosition(position));
-        viewHolder.binding.getRoot().setBackgroundColor(selected ? 0xff009900 : 0xff999999);
+        int color = ContextCompat.getColor(viewHolder.binding.getRoot().getContext(), selected ? R.color.cardBackgroundSelectedColor : R.color.cardBackgroundColor);
+        viewHolder.binding.card.setCardBackgroundColor(color);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         MasterItem item = getItem(position);
         if (item != null) {
+            Context context = viewHolder.binding.getRoot().getContext();
             if (item instanceof MasterItemStep) {
-                viewHolder.binding.setVariable(BR.step, ((MasterItemStep) item).getStep());
-                viewHolder.binding.executePendingBindings();
+                viewHolder.binding.setText(((MasterItemStep) item).getStep().getShortDescription());
+                viewHolder.binding.setImageUrl(((MasterItemStep) item).getStep().getThumbnailUrl());
+                viewHolder.binding.setImageContentDescription(context.getString(R.string.accessibility_step_icon));
+            } else {
+                viewHolder.binding.setText(context.getString(R.string.ingredients_title));
+                viewHolder.binding.setImageUrl(null);
+                viewHolder.binding.setImageContentDescription(context.getString(R.string.accessibility_ingredient_icon));
             }
             updateBackgroundColor(viewHolder, position);
         }

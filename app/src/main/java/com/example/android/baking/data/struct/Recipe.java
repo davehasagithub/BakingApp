@@ -86,8 +86,7 @@ public class Recipe implements Parcelable {
         return recipeDbs;
     }
 
-    public static List<Recipe> constructPlaceholders() {
-        int placeHolderCount = 6;
+    public static List<Recipe> constructPlaceholders(int placeHolderCount) {
         List<Recipe> placeholders = new ArrayList<>();
         for (int i = -placeHolderCount; i < 0; i++) {
             RecipeDb recipeDb = new RecipeDb(i, "", 0, null);

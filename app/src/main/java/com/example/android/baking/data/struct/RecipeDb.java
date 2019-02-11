@@ -11,7 +11,7 @@ public class RecipeDb {
 
     @PrimaryKey
     @NonNull
-    private int id = -1;
+    private int id;
 
     private String name;
 

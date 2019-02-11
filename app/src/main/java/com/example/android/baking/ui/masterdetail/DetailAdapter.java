@@ -28,7 +28,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
@@ -119,37 +118,39 @@ public class DetailAdapter extends ListAdapter<MasterItem, ViewHolder> implement
     }
 
     private void updateExoPlayer(ViewHolder viewHolder, int position) {
+        boolean selected = (detailAdapterCallback != null && detailAdapterCallback.isActivePosition(position));
+
+        if (selected) {
+            player.stop(true);
+            player.setPlayWhenReady(false);
+        }
+
         int viewType = getItemViewType(position);
         if (viewType == MasterAdapter.VIEW_TYPE_STEP) {
             DetailStepBinding binding = (DetailStepBinding) viewHolder.binding;
-            boolean selected = (detailAdapterCallback != null && detailAdapterCallback.isActivePosition(position));
             String url = ((MasterItem.MasterItemStep) getItem(position)).getStep().getVideoUrl();
             boolean hasVideo = !TextUtils.isEmpty(url);
             binding.playerView.setVisibility(!hasVideo ? View.GONE : View.VISIBLE);
-            // binding.playerView.setKeepContentOnPlayerReset(false);
-            // binding.playerView.setUseController(false);
+            if (selected) {
+                if (hasVideo) {
+                    player.prepare(new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url)));
+                    binding.playerView.setControllerHideOnTouch(true);
 
-            if (hasVideo && selected) {
-                player.stop(true);
-                player.setPlayWhenReady(false);
-                player.prepare(new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url)));
-                binding.playerView.setControllerHideOnTouch(true);
-
-                PlayerView currentPlayerView = (currentPlayerViewRef == null ? null : currentPlayerViewRef.get());
-                if (currentPlayerView != null) {
-                    if (currentPlayerView != binding.playerView) {
-                        Timber.d("position %d switched target view", position);
-                        PlayerView.switchTargetView(player, currentPlayerView, binding.playerView);
+                    PlayerView currentPlayerView = (currentPlayerViewRef == null ? null : currentPlayerViewRef.get());
+                    if (currentPlayerView != null) {
+                        if (currentPlayerView != binding.playerView) {
+                            Timber.d("position %d switched target view", position);
+                            PlayerView.switchTargetView(player, currentPlayerView, binding.playerView);
+                        } else {
+                            Timber.d("position %d existing target view", position);
+                            binding.playerView.setPlayer(player);
+                        }
                     } else {
-                        Timber.d("position %d existing target view", position);
+                        Timber.d("position %d set player", position);
                         binding.playerView.setPlayer(player);
                     }
-                } else {
-                    Timber.d("position %d set player", position);
-                    binding.playerView.setPlayer(player);
+                    currentPlayerViewRef = new WeakReference<>(binding.playerView);
                 }
-                currentPlayerViewRef = new WeakReference<>(binding.playerView);
-
             } else {
                 if (binding.playerView.getPlayer() != null) {
                     Timber.d("position %d setplayer null", position);
@@ -166,8 +167,9 @@ public class DetailAdapter extends ListAdapter<MasterItem, ViewHolder> implement
             Context context = viewHolder.binding.getRoot().getContext();
             int viewType = getItemViewType(position);
             if (viewType == MasterAdapter.VIEW_TYPE_STEP) {
-                viewHolder.binding.setVariable(BR.step, ((MasterItem.MasterItemStep) item).getStep());
-                viewHolder.binding.executePendingBindings();
+                DetailStepBinding binding = (DetailStepBinding) viewHolder.binding;
+                binding.setStep(((MasterItem.MasterItemStep) item).getStep());
+                ((DetailStepBinding) viewHolder.binding).tvRecipeName.setTag("position" + position);
             } else if (viewType == MasterAdapter.VIEW_TYPE_INGREDIENTS_BUTTON) {
                 DetailIngredientsBinding binding = (DetailIngredientsBinding) viewHolder.binding;
 

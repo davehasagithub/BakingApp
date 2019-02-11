@@ -30,6 +30,7 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.RecipeAdap
     private RecipeAdapter adapter;
 
     private int lastPosition = -1;
+//    private CountingIdlingResource idlingResource;
 
     public static RecipeFragment newInstance() {
         return new RecipeFragment();
@@ -39,14 +40,18 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.RecipeAdap
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        activityViewModel = ViewModelProviders.of((MainActivity) context).get(MainActivityViewModel.class);
+        activityViewModel = ViewModelProviders.of((AppCompatActivity) context).get(MainActivityViewModel.class);
+
+//        if (context instanceof MainActivity) {
+//            idlingResource = ((MainActivity) context).getIdlingResource();
+//        }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new RecipeAdapter(this);
+        adapter = new RecipeAdapter(this, getLifecycle());//, idlingResource);
         adapter.setHasStableIds(true);
     }
 
@@ -54,6 +59,7 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.RecipeAdap
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = RecipeFragmentBinding.inflate(inflater);
+        binding.setMainActivityViewModel(activityViewModel);
         return binding.getRoot();
     }
 

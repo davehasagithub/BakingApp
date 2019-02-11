@@ -2,12 +2,22 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+
+        <import type="androidx.recyclerview.widget.RecyclerView" />
+
+        <variable
+            name="masterDetailFragmentViewModel"
+            type="com.example.android.baking.ui.masterdetail.MasterDetailFragmentViewModel" />
+
+    </data>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_master_items"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:verticalScrollbarPosition="left"
-        style="@style/myscrollbar" />
+        android:verticalScrollbarPosition="@{safeUnbox(masterDetailFragmentViewModel.getTwoPaneLiveData()) ? RecyclerView.SCROLLBAR_POSITION_LEFT : RecyclerView.SCROLLBAR_POSITION_RIGHT}"
+        style="@style/recipe_scrollbar" />
 
 </layout>

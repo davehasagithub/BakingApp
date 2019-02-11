@@ -16,7 +16,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="myscrollbar">
+    <style name="recipe_scrollbar">
         <item name="android:scrollbarThumbHorizontal">@color/colorPrimary</item>
         <item name="android:scrollbarThumbVertical">@color/colorPrimary</item>
         <item name="android:scrollbarSize">@dimen/scrollbar_size</item>

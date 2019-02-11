@@ -3,4 +3,23 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="cardTextColor">#ffffffff</color>
+    <color name="cardBackgroundColor">#ffff0000</color>
+    <color name="cardBackgroundSelectedColor">#ff00ff00</color>
+    <color name="cardBackgroundPlaceholderColor">#ff0000ff</color>
+
+    <color name="ingredientsScreenTextColor">#ffffffff</color>
+    <color name="ingredientsScreenBackgroundColor">#ff81B1FF</color>
+
+    <color name="stepScreenBackgroundColor">#ff009900</color>
+    <color name="stepScreenTextColor">#ffffffff</color>
+    <color name="stepScreenPlayerShutterColor">#33000000</color>
+    <color name="stepScreenPlayerButtonBackgroundColor">#CC000000</color>
+
+    <color name="widgetBackgroundColor">#09C</color>
+    <color name="widgetHeaderBackgroundColor">#ff00ff00</color>
+    <color name="widgetHeaderTextColor">#ffffff</color>
+    <color name="widgetDividerColor">#eeeeee</color>
+    <color name="widgetRowTextColor">#ffffff</color>
 </resources>

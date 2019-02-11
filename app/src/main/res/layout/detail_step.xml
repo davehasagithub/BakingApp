@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/master_padding"
-        android:background="#ff009900">
+        android:background="@color/stepScreenBackgroundColor">
 
         <ScrollView
             android:id="@+id/sv_step_text"
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{step.description}"
-                android:textColor="#ffffffff" />
+                android:textColor="@color/stepScreenTextColor" />
 
         </ScrollView>
 
@@ -46,29 +46,17 @@
             android:layout_marginTop="@dimen/master_padding"
             app:surface_type="texture_view"
             app:keep_content_on_player_reset="false"
-            app:shutter_background_color="#33000000"
+            app:shutter_background_color="@color/stepScreenPlayerShutterColor"
             app:resize_mode="zoom"
             app:show_timeout="3000"
             app:hide_on_touch="true"
+            app:controller_layout_id="@layout/exoplayer_controller"
 
             app:layout_constraintHeight_percent="0.5"
             app:layout_constraintTop_toBottomOf="@+id/sv_step_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
-
-<!--
-        <com.google.android.exoplayer2.ui.PlayerControlView
-            android:id="@+id/player_controls"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:show_timeout="0"
-
-            app:layout_constraintTop_toBottomOf="@+id/player_view"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
--->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

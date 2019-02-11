@@ -9,10 +9,6 @@ import com.example.android.baking.R;
 import com.example.android.baking.databinding.MainActivityBinding;
 import com.example.android.baking.ui.masterdetail.MasterDetailFragment;
 import com.example.android.baking.utilities.Event;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.security.ProviderInstaller;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -32,6 +28,19 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt("recipeId", viewModel.getRecipeId());
     }
 
+//    public IdlingResource init() {
+//        return EspressoIdlingResource.init();
+//    }
+
+//    private CountingIdlingResource mCountingIdlingResource;
+//    @VisibleForTesting
+//    public CountingIdlingResource getIdlingResource() {
+//        if (mCountingIdlingResource == null) {
+//            mCountingIdlingResource = new CountingIdlingResource("blah");
+//        }
+//        return mCountingIdlingResource;
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         logScreenSpecs();
 
         // https://github.com/square/okhttp/issues/2372
-        updateAndroidSecurityProvider();
+        // MainActivity.updateAndroidSecurityProvider(this);
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
@@ -128,12 +137,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void updateAndroidSecurityProvider() {
-        try {
-            ProviderInstaller.installIfNeeded(this);
-        } catch (GooglePlayServicesRepairableException e) {
-            GoogleApiAvailability.getInstance().showErrorNotification(this, e.getConnectionStatusCode());
-        } catch (GooglePlayServicesNotAvailableException ignore) {
-        }
-    }
+//    public static void updateAndroidSecurityProvider(Context context) {
+//        try {
+//            ProviderInstaller.installIfNeeded(context);
+//        } catch (GooglePlayServicesRepairableException e) {
+//            GoogleApiAvailability.getInstance().showErrorNotification(context, e.getConnectionStatusCode());
+//        } catch (GooglePlayServicesNotAvailableException ignore) {
+//        }
+//    }
 }

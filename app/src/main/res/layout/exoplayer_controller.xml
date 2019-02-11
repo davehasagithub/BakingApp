@@ -1,27 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
-
-    <ImageButton android:id="@id/exo_play"
-                 android:layout_width="50dp"
-                 android:layout_height="50dp"
-                 android:layout_gravity="center"
-                 android:background="#CC000000"
-                 style="@style/ExoMediaButton.Play"/>
-
-    <ImageButton android:id="@id/exo_pause"
-                 android:layout_width="50dp"
-                 android:layout_height="50dp"
-                 android:layout_gravity="center"
-                 android:background="#CC000000"
-                 style="@style/ExoMediaButton.Pause"/>
-
-</FrameLayout>
--->
-
-
+<!-- https://github.com/google/ExoPlayer/tree/release-v2/library/ui/src/main/res/layout [exo_playback_control_view.xml] -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -32,7 +10,8 @@
         android:id="@id/exo_play"
         android:layout_width="@dimen/exo_play_button_size"
         android:layout_height="@dimen/exo_play_button_size"
-        android:background="#CC000000"
+        android:background="@color/stepScreenPlayerButtonBackgroundColor"
+        android:contentDescription="@string/accessibility_play"
         style="@style/ExoMediaButton.Play"
 
         app:layout_constraintLeft_toLeftOf="parent"
@@ -44,7 +23,8 @@
         android:id="@id/exo_pause"
         android:layout_width="@dimen/exo_play_button_size"
         android:layout_height="@dimen/exo_play_button_size"
-        android:background="#CC000000"
+        android:background="@color/stepScreenPlayerButtonBackgroundColor"
+        android:contentDescription="@string/accessibility_pause"
         style="@style/ExoMediaButton.Pause"
 
         app:layout_constraintLeft_toLeftOf="parent"

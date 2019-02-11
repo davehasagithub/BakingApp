@@ -3,10 +3,13 @@ package com.example.android.baking.data.repo;
 import android.content.Context;
 import android.preference.PreferenceManager;
 
+import com.example.android.baking.BakingWidget;
+import com.example.android.baking.R;
 import com.example.android.baking.data.repo.db.AppDatabase;
 import com.example.android.baking.data.struct.Recipe;
 import com.example.android.baking.data.struct.RecipeRemote;
 import com.example.android.baking.utilities.AppExecutors;
+import com.example.android.baking.utilities.EspressoIdlingResource;
 import com.example.android.baking.utilities.WebService;
 
 import org.jetbrains.annotations.NotNull;
@@ -41,29 +44,17 @@ public class RecipeRepository {
         return AppDatabase.getInstance(context).recipeDao().getRecipesLiveData();
     }
 
-//    public Recipe loadRecipe(Context context, int id) {
-//        return AppDatabase.getInstance(context).recipeDao().getRecipe(id);
-//    }
-//
-//    public LiveData<Recipe> loadRecipeLiveData(Context context, int id) {
-//        return AppDatabase.getInstance(context).recipeDao().getRecipeLiveData(id);
-//    }
-
-//    public StepDb loadStep(Context context, int id) {
-//        return AppDatabase.getInstance(context).recipeDao().getStep(id);
-//    }
-
-//    public StepDb loadStep(Context context, int recipeId, int index) {
-//        return AppDatabase.getInstance(context).recipeDao().getStep(recipeId, index);
-//    }
+    public Recipe loadRecipe(Context context, int id) {
+        return AppDatabase.getInstance(context).recipeDao().getRecipe(id);
+    }
 
     public MutableLiveData<Boolean> reloadRecipesIfNecessary(final Context context, boolean forceReload) {
         final MutableLiveData<Boolean> successLiveData = new MutableLiveData<>();
         long lastDatabaseRefresh = PreferenceManager.getDefaultSharedPreferences(context).getLong("lastDatabaseRefresh", 0);
-        long expiryTime = TimeUnit.MILLISECONDS.convert(30, TimeUnit.MINUTES);
-        // long expiryTime = TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS);
+        long expiryTime = TimeUnit.MILLISECONDS.convert(context.getResources().getInteger(R.integer.expirationMinutes), TimeUnit.MINUTES);
         Timber.d("result: expiry time %d, since now: %d", expiryTime, System.currentTimeMillis() - lastDatabaseRefresh);
-        if (forceReload || System.currentTimeMillis() - lastDatabaseRefresh > expiryTime) {
+        boolean isStale = System.currentTimeMillis() - lastDatabaseRefresh > expiryTime;
+        if (!EspressoIdlingResource.isInTest() && (forceReload || isStale)) {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
@@ -92,6 +83,8 @@ public class RecipeRepository {
                                                 AppDatabase.getInstance(context).recipeDao().saveRecipesWithIngredientsAndSteps(recipes);
                                                 PreferenceManager.getDefaultSharedPreferences(context).edit().putLong("lastDatabaseRefresh", System.currentTimeMillis()).apply();
                                                 successLiveData.postValue(true);
+
+                                                BakingWidget.refresh(context);
                                             }
                                         });
                                     } else {

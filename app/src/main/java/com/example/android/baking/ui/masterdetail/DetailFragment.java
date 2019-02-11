@@ -97,19 +97,19 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
             }
         });
 
-        binding.recyclerviewMasterItems.setHasFixedSize(true);
-        binding.recyclerviewMasterItems.setAdapter(adapter);
-        binding.recyclerviewMasterItems.addItemDecoration(new DetailDecoration());
-        binding.recyclerviewMasterItems.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        binding.recyclerviewDetailItems.setHasFixedSize(true);
+        binding.recyclerviewDetailItems.setAdapter(adapter);
+        binding.recyclerviewDetailItems.addItemDecoration(new DetailDecoration());
+        binding.recyclerviewDetailItems.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
 
         Integer position = masterDetailFragmentViewModel.getMasterItemIndexLiveData().getValue();
         if (position != null && position != -1) {
             // after activity killed the initial app restore does a smooth scroll. why?
-            binding.recyclerviewMasterItems.scrollToPosition(position);
+            binding.recyclerviewDetailItems.scrollToPosition(position);
         }
 
         PagerSnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(binding.recyclerviewMasterItems);
+        snapHelper.attachToRecyclerView(binding.recyclerviewDetailItems);
         SnapOnScrollListener snapOnScrollListener = new SnapOnScrollListener(snapHelper, new OnSnapPositionChangeListener() {
             @Override
             public void onSnapPositionChange(int newPosition) {
@@ -127,7 +127,7 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
                 }
             }
         });
-        binding.recyclerviewMasterItems.addOnScrollListener(snapOnScrollListener);
+        binding.recyclerviewDetailItems.addOnScrollListener(snapOnScrollListener);
     }
 
     @Override
@@ -156,10 +156,10 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
                     Timber.v("initiateManualTap %d", newPosition);
                     if (newPosition != -1) {
 
-                        binding.recyclerviewMasterItems.stopScroll();
-                        binding.recyclerviewMasterItems.scrollToPosition(newPosition);
+                        binding.recyclerviewDetailItems.stopScroll();
+                        binding.recyclerviewDetailItems.scrollToPosition(newPosition);
 
-                        binding.recyclerviewMasterItems.post(new Runnable() {
+                        binding.recyclerviewDetailItems.post(new Runnable() {
                             @Override
                             public void run() {
                             }

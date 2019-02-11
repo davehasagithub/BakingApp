@@ -92,7 +92,12 @@ public class IngredientDb {
         return ingredientDbs;
     }
 
+//    public Spannable getCombinedDescription(float indent) {
+//        return getCombinedDescription((int) indent);
+//    }
+
     public Spannable getCombinedDescription(Context context) {
+        int indent = (int) context.getResources().getDimension(R.dimen.master_padding);
         StringBuilder s = new StringBuilder();
         s.append(quantity.replaceAll("\\.0$", ""));
         if (!measure.equalsIgnoreCase("unit")) {
@@ -103,7 +108,7 @@ public class IngredientDb {
         s.append(ingredient.toUpperCase());
 
         SpannableString result = new SpannableString(s);
-        int indent = (int) context.getResources().getDimension(R.dimen.master_padding);
+        // int indent = (int) context.getResources().getDimension(R.dimen.master_padding);
         result.setSpan(new LeadingMarginSpan.Standard(0, indent), 0, s.length(), 0);
 
         return result;

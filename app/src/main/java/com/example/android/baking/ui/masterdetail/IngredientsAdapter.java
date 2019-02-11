@@ -5,12 +5,11 @@ import android.view.ViewGroup;
 
 import com.example.android.baking.R;
 import com.example.android.baking.data.struct.IngredientDb;
+import com.example.android.baking.databinding.IngredientRowBinding;
 import com.example.android.baking.ui.masterdetail.IngredientsAdapter.ViewHolder;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
-import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,9 +27,9 @@ public class IngredientsAdapter extends ListAdapter<IngredientDb, ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        final ViewDataBinding binding;
+        final IngredientRowBinding binding;
 
-        ViewHolder(ViewDataBinding binding) {
+        ViewHolder(IngredientRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -40,8 +39,7 @@ public class IngredientsAdapter extends ListAdapter<IngredientDb, ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         IngredientDb ingredient = getItem(position);
         if (ingredient != null) {
-            viewHolder.binding.setVariable(BR.ingredient, ingredient);
-            viewHolder.binding.executePendingBindings();
+            viewHolder.binding.setIngredient(ingredient);
         }
     }
 

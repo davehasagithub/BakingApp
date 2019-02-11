@@ -44,10 +44,10 @@ public class MainActivityViewModel extends AndroidViewModel {
         super(application);
     }
 
-    void init(final int recipeId) {
+    public void init(final int recipeId) {
         if (!initialized) {
             initialized = true;
-            placeholdersLiveData.setValue(Recipe.constructPlaceholders());
+            placeholdersLiveData.setValue(Recipe.constructPlaceholders(4));
             recipesDbLiveData = RecipeRepository.getInstance().loadRecipesLiveData(context);
             recipeIdLiveData.setValue(recipeId);
             updateRecipes(false);

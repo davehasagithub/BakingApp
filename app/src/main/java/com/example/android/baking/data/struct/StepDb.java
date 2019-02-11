@@ -86,7 +86,7 @@ public class StepDb {
         this.shortDescription = step.getShortDescription();
         this.description = step.getDescription();
         this.videoUrl = step.getVideoUrl();
-        this.thumbnailUrl = "";//step.getThumbnailUrl();
+        this.thumbnailUrl = step.getThumbnailUrl();
     }
 
     public static List<StepDb> getStepList(int recipeId, List<StepRemote> stepRemotes) {

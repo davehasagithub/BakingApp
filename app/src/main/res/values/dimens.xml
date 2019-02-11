@@ -7,4 +7,6 @@
     <dimen name="space_below_detail_slider_scrollbar">8dp</dimen>
 
     <dimen name="scrollbar_size">4dp</dimen>
+
+    <dimen name="widget_margin">8dp</dimen>
 </resources>

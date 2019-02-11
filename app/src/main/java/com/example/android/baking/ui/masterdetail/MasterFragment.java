@@ -67,6 +67,7 @@ public class MasterFragment extends Fragment implements MasterAdapter.MasterAdap
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = MasterFragmentBinding.inflate(inflater);
+        binding.setMasterDetailFragmentViewModel(masterDetailFragmentViewModel);
         return binding.getRoot();
     }
 

@@ -12,7 +12,6 @@ import com.example.android.baking.R;
 import com.example.android.baking.data.struct.MasterItem;
 import com.example.android.baking.data.struct.Recipe;
 import com.example.android.baking.databinding.MasterDetailFragmentBinding;
-import com.example.android.baking.ui.main.MainActivity;
 import com.example.android.baking.ui.main.MainActivityViewModel;
 import com.example.android.baking.utilities.Event;
 
@@ -33,7 +32,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 public class MasterDetailFragment extends Fragment {
 
-    static boolean AUTO_SELECT_FIRST_ON_TWO_PANE = false;
+    static boolean AUTO_SELECT_FIRST_ON_TWO_PANE = true;
 
     private MasterDetailFragmentBinding binding;
     private MasterDetailFragmentViewModel viewModel;
@@ -47,7 +46,7 @@ public class MasterDetailFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        activityViewModel = ViewModelProviders.of((MainActivity) context).get(MainActivityViewModel.class);
+        activityViewModel = ViewModelProviders.of((AppCompatActivity) context).get(MainActivityViewModel.class);
         viewModel = ViewModelProviders.of(MasterDetailFragment.this).get(MasterDetailFragmentViewModel.class);
     }
 
