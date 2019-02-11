@@ -1,6 +1,7 @@
 package com.example.android.baking.data.struct;
 
-public class IngredientRemote {
+@SuppressWarnings({"unused", "WeakerAccess"})
+class IngredientRemote {
 
     private float quantity;
 

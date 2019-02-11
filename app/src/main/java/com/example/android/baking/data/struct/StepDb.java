@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
 @Entity(
         tableName = "step"
 )
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class StepDb {
 
     @PrimaryKey(autoGenerate = true)

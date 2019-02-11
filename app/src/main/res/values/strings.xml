@@ -9,7 +9,6 @@
     <string name="previous_button"><![CDATA[< Previous]]></string>
 
     <string name="widget_configure">Select Recipe for Widget</string>
-    <string name="widget_add">Add widget</string>
 
     <string name="accessibility_play">Play</string>
     <string name="accessibility_pause">Pause</string>

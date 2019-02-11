@@ -15,14 +15,12 @@ import com.example.android.baking.data.struct.MasterItem;
 import com.example.android.baking.databinding.DetailFragmentBinding;
 import com.example.android.baking.ui.masterdetail.DetailAdapter.DetailAdapterCallback;
 import com.example.android.baking.utilities.SnapOnScrollListener;
-import com.example.android.baking.utilities.SnapOnScrollListener.OnSnapPositionChangeListener;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -53,11 +51,6 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
         if (parentFragment != null) {
             masterDetailFragmentViewModel = ViewModelProviders.of(parentFragment).get(MasterDetailFragmentViewModel.class);
         }
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -110,21 +103,18 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
 
         PagerSnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(binding.recyclerviewDetailItems);
-        SnapOnScrollListener snapOnScrollListener = new SnapOnScrollListener(snapHelper, new OnSnapPositionChangeListener() {
-            @Override
-            public void onSnapPositionChange(int newPosition) {
-                Timber.v("onSnapPositionChange %d", newPosition);
-                if (masterDetailFragmentViewModel.initiateManualScroll(newPosition)) {
-                    Timber.v("initiateManualScroll %d", newPosition);
-                    List<MasterItem> masterItems = masterDetailFragmentViewModel.getMasterItemsLiveData().getValue();
-                    if (masterItems != null && newPosition < masterItems.size()) {
-                        masterDetailFragmentViewModel.setMasterItemId(masterItems.get(newPosition).getId());
+        SnapOnScrollListener snapOnScrollListener = new SnapOnScrollListener(snapHelper, newPosition -> {
+            Timber.v("onSnapPositionChange %d", newPosition);
+            if (masterDetailFragmentViewModel.initiateManualScroll(newPosition)) {
+                Timber.v("initiateManualScroll %d", newPosition);
+                List<MasterItem> masterItems = masterDetailFragmentViewModel.getMasterItemsLiveData().getValue();
+                if (masterItems != null && newPosition < masterItems.size()) {
+                    masterDetailFragmentViewModel.setMasterItemId(masterItems.get(newPosition).getId());
 
-                        // updateSelectedPosition(newPosition);
-                    }
-                } else {
-                    Timber.v("initiateManualScroll %d [ignored]", newPosition);
+                    // updateSelectedPosition(newPosition);
                 }
+            } else {
+                Timber.v("initiateManualScroll %d [ignored]", newPosition);
             }
         });
         binding.recyclerviewDetailItems.addOnScrollListener(snapOnScrollListener);
@@ -138,41 +128,32 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
     }
 
     private void addViewModelObservers() {
-        masterDetailFragmentViewModel.getMasterItemsLiveData().observe(getViewLifecycleOwner(), new Observer<List<MasterItem>>() {
-                    @Override
-                    public void onChanged(List<MasterItem> masterItems) {
-                        if (adapter != null) {
-                            adapter.submitList(masterItems);
-                        }
-                    }
-                }
+        masterDetailFragmentViewModel.getMasterItemsLiveData().observe(getViewLifecycleOwner(), masterItems -> {
+            if (adapter != null) {
+                adapter.submitList(masterItems);
+            }
+        }
         );
 
-        masterDetailFragmentViewModel.getMasterItemIndexLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(final Integer newPosition) {
-                Timber.v("onChanged %d", newPosition);
-                if (masterDetailFragmentViewModel.initiateManualTap(newPosition)) {
-                    Timber.v("initiateManualTap %d", newPosition);
-                    if (newPosition != -1) {
+        masterDetailFragmentViewModel.getMasterItemIndexLiveData().observe(getViewLifecycleOwner(), newPosition -> {
+            Timber.v("onChanged %d", newPosition);
+            if (masterDetailFragmentViewModel.initiateManualTap(newPosition)) {
+                Timber.v("initiateManualTap %d", newPosition);
+                if (newPosition != -1) {
 
-                        binding.recyclerviewDetailItems.stopScroll();
-                        binding.recyclerviewDetailItems.scrollToPosition(newPosition);
+                    binding.recyclerviewDetailItems.stopScroll();
+                    binding.recyclerviewDetailItems.scrollToPosition(newPosition);
 
-                        binding.recyclerviewDetailItems.post(new Runnable() {
-                            @Override
-                            public void run() {
-                            }
-                        });
+                    binding.recyclerviewDetailItems.post(() -> {
+                    });
 
-                    }
-                } else {
-                    Timber.d("onChanged %d [ignored]", newPosition);
                 }
-
-                updateSelectedPosition(newPosition);
-
+            } else {
+                Timber.d("onChanged %d [ignored]", newPosition);
             }
+
+            updateSelectedPosition(newPosition);
+
         });
     }
 

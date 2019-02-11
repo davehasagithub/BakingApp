@@ -16,6 +16,7 @@ import androidx.room.PrimaryKey;
 @Entity(
         tableName = "ingredient"
 )
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class IngredientDb {
 
     @PrimaryKey(autoGenerate = true)

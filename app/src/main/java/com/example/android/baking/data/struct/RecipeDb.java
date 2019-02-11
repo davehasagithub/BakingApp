@@ -1,16 +1,15 @@
 package com.example.android.baking.data.struct;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(
         tableName = "recipe"
 )
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class RecipeDb {
 
     @PrimaryKey
-    @NonNull
     private int id;
 
     private String name;

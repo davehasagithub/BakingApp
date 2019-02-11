@@ -41,9 +41,9 @@ public class DetailAdapter extends ListAdapter<MasterItem, ViewHolder> implement
 
     public static final int PAYLOAD_UPDATE_EXOPLAYER = 0;
 
-    private DetailAdapterCallback detailAdapterCallback;
-    private DataSource.Factory dataSourceFactory;
-    private SimpleExoPlayer player;
+    final private DetailAdapterCallback detailAdapterCallback;
+    final private DataSource.Factory dataSourceFactory;
+    final private SimpleExoPlayer player;
     private WeakReference<PlayerView> currentPlayerViewRef;
 
     public interface DetailAdapterCallback {

@@ -30,7 +30,7 @@ public class RecipeAdapter extends ListAdapter<Recipe, ViewHolder> implements De
     public static final String RECIPE_NAME_FOR_TEST = "Brownies";
     public static final int PAYLOAD_UPDATE_BACKGROUND = 0;
 
-    private RecipeAdapterCallback recipeAdapterCallback;
+    final private RecipeAdapterCallback recipeAdapterCallback;
     private AdapterDataObserver adapterDataObserver;
 
     RecipeAdapter(RecipeAdapterCallback recipeAdapterCallback, Lifecycle lifecycle) {

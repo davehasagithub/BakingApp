@@ -4,6 +4,7 @@ import com.squareup.moshi.Json;
 
 import java.util.List;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class RecipeRemote {
 
     private int id;

@@ -13,7 +13,6 @@ import com.example.android.baking.data.struct.MasterItem;
 import com.example.android.baking.data.struct.Recipe;
 import com.example.android.baking.databinding.MasterDetailFragmentBinding;
 import com.example.android.baking.ui.main.MainActivityViewModel;
-import com.example.android.baking.utilities.Event;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,12 +26,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 public class MasterDetailFragment extends Fragment {
 
-    static boolean AUTO_SELECT_FIRST_ON_TWO_PANE = true;
+    final static boolean AUTO_SELECT_FIRST_ON_TWO_PANE = true;
 
     private MasterDetailFragmentBinding binding;
     private MasterDetailFragmentViewModel viewModel;
@@ -144,70 +142,58 @@ public class MasterDetailFragment extends Fragment {
     }
 
     private void addViewModelObservers() {
-        activityViewModel.getRecipeLiveData().observe(getViewLifecycleOwner(), new Observer<Recipe>() {
-//            boolean inited = false;
+        //            boolean inited = false;
+        activityViewModel.getRecipeLiveData().observe(getViewLifecycleOwner(), recipe -> {
+            updateTitle();
 
-            @Override
-            public void onChanged(Recipe recipe) {
-                updateTitle();
-
-                if (recipe != null) {
-                    List<MasterItem> masterItems = new ArrayList<>();
-                    masterItems.add(new MasterItem.MasterItemIngredientsButton(recipe.getIngredients()));
-                    for (int i = 0; i < recipe.getSteps().size(); i++) {
-                        masterItems.add(new MasterItem.MasterItemStep(recipe.getSteps().get(i)));
-                    }
-                    viewModel.setMasterItems(masterItems);
+            if (recipe != null) {
+                List<MasterItem> masterItems = new ArrayList<>();
+                masterItems.add(new MasterItem.MasterItemIngredientsButton(recipe.getIngredients()));
+                for (int i = 0; i < recipe.getSteps().size(); i++) {
+                    masterItems.add(new MasterItem.MasterItemStep(recipe.getSteps().get(i)));
                 }
+                viewModel.setMasterItems(masterItems);
             }
         });
 
-        viewModel.getMasterItemLiveData().observe(getViewLifecycleOwner(), new Observer<MasterItem>() {
-            @Override
-            public void onChanged(MasterItem item) {
-                updateTitle();
-            }
-        });
+        viewModel.getMasterItemLiveData().observe(getViewLifecycleOwner(), item -> updateTitle());
 
-        viewModel.getHandleMasterItemClickLiveData().observe(getViewLifecycleOwner(), new Observer<Event<Boolean>>() {
-            @Override
-            public void onChanged(Event<Boolean> event) {
-                if (event != null) {
-                    Boolean load = event.getContentIfNotHandled();
-                    if (load != null) {
-                        if (load) {
-                            FragmentManager fragmentManager = getChildFragmentManager();
-                            if (viewModel.isTwoPane()) {
-                                Fragment detailFragment = fragmentManager.findFragmentById(R.id.detail_container);
-                                if (detailFragment == null) {
-                                    detailFragment = DetailFragment.newInstance();
-                                    fragmentManager.beginTransaction()
-                                            .setReorderingAllowed(true)
-                                            .replace(R.id.detail_container, detailFragment, "detail")
-                                            .commit();
-                                }
-                            } else {
-                                Fragment currentFragment = fragmentManager.findFragmentById(R.id.single_pane_container);
-                                if (currentFragment instanceof MasterFragment) {
-                                    DetailFragment detailFragment = DetailFragment.newInstance();
-                                    fragmentManager.beginTransaction()
-                                            .setReorderingAllowed(true)
-                                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                                            .detach(currentFragment)
-                                            .add(R.id.single_pane_container, detailFragment, "detail")
-                                            .commit();
-                                }
+        viewModel.getHandleMasterItemClickLiveData().observe(getViewLifecycleOwner(), event -> {
+            if (event != null) {
+                Boolean load = event.getContentIfNotHandled();
+                if (load != null) {
+                    if (load) {
+                        FragmentManager fragmentManager = getChildFragmentManager();
+                        if (viewModel.isTwoPane()) {
+                            Fragment detailFragment = fragmentManager.findFragmentById(R.id.detail_container);
+                            if (detailFragment == null) {
+                                detailFragment = DetailFragment.newInstance();
+                                fragmentManager.beginTransaction()
+                                        .setReorderingAllowed(true)
+                                        .replace(R.id.detail_container, detailFragment, "detail")
+                                        .commit();
                             }
                         } else {
-                            FragmentManager fragmentManager = getChildFragmentManager();
-                            if (viewModel.isTwoPane()) {
-                                Fragment detailFragment = fragmentManager.findFragmentById(R.id.detail_container);
-                                if (detailFragment instanceof DetailFragment) {
-                                    fragmentManager.beginTransaction()
-                                            .setReorderingAllowed(true)
-                                            .remove(detailFragment)
-                                            .commit();
-                                }
+                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.single_pane_container);
+                            if (currentFragment instanceof MasterFragment) {
+                                DetailFragment detailFragment = DetailFragment.newInstance();
+                                fragmentManager.beginTransaction()
+                                        .setReorderingAllowed(true)
+                                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                                        .detach(currentFragment)
+                                        .add(R.id.single_pane_container, detailFragment, "detail")
+                                        .commit();
+                            }
+                        }
+                    } else {
+                        FragmentManager fragmentManager = getChildFragmentManager();
+                        if (viewModel.isTwoPane()) {
+                            Fragment detailFragment = fragmentManager.findFragmentById(R.id.detail_container);
+                            if (detailFragment instanceof DetailFragment) {
+                                fragmentManager.beginTransaction()
+                                        .setReorderingAllowed(true)
+                                        .remove(detailFragment)
+                                        .commit();
                             }
                         }
                     }
@@ -230,12 +216,7 @@ public class MasterDetailFragment extends Fragment {
                             .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
                             .attach(masterFragment)
                             .remove(currentFragment)
-                            .runOnCommit(new Runnable() {
-                                @Override
-                                public void run() {
-                                    viewModel.clearMasterItem();
-                                }
-                            })
+                            .runOnCommit(() -> viewModel.clearMasterItem())
                             .commit();
                 }
             }

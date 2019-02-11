@@ -12,14 +12,11 @@ import com.example.android.baking.R;
 import com.example.android.baking.data.struct.Recipe;
 import com.example.android.baking.databinding.RecipeFragmentBinding;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -107,21 +104,13 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.RecipeAdap
     }
 
     private void addViewModelObservers() {
-        activityViewModel.getRecipesLiveData().observe(getViewLifecycleOwner(), new Observer<List<Recipe>>() {
-            @Override
-            public void onChanged(List<Recipe> recipes) {
-                if (adapter != null) {
-                    adapter.submitList(recipes);
-                }
+        activityViewModel.getRecipesLiveData().observe(getViewLifecycleOwner(), recipes -> {
+            if (adapter != null) {
+                adapter.submitList(recipes);
             }
         });
 
-        activityViewModel.getRecipeIndexLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer newPosition) {
-                updateSelectedPosition(newPosition);
-            }
-        });
+        activityViewModel.getRecipeIndexLiveData().observe(getViewLifecycleOwner(), this::updateSelectedPosition);
     }
 
     private void updateSelectedPosition(int position) {

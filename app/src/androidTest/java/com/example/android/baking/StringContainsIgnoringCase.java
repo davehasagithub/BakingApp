@@ -5,7 +5,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.core.SubstringMatcher;
 
 class StringContainsIgnoringCase extends SubstringMatcher {
-    public StringContainsIgnoringCase(String substring) {
+    private StringContainsIgnoringCase(String substring) {
         super(substring);
     }
 
@@ -20,7 +20,7 @@ class StringContainsIgnoringCase extends SubstringMatcher {
     }
 
     @Factory
-    public static Matcher<String> containsStringIgnoringCase(String substring) {
+    static Matcher<String> containsStringIgnoringCase(@SuppressWarnings("SameParameterValue") String substring) {
         return new StringContainsIgnoringCase(substring);
     }
 }

@@ -9,19 +9,16 @@ import android.preference.PreferenceManager;
 import com.example.android.baking.databinding.WidgetConfigureBinding;
 import com.example.android.baking.ui.main.MainActivityViewModel;
 import com.example.android.baking.ui.main.RecipeFragment;
-import com.example.android.baking.utilities.Event;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 public class BakingWidgetConfigureActivity extends AppCompatActivity {
 
-    WidgetConfigureBinding binding;
     private MainActivityViewModel viewModel;
 
-    int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+    private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     public BakingWidgetConfigureActivity() {
         super();
@@ -47,7 +44,7 @@ public class BakingWidgetConfigureActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.widget_configure);
+        WidgetConfigureBinding binding = DataBindingUtil.setContentView(this, R.layout.widget_configure);
         binding.setLifecycleOwner(this);
 
         if (savedInstanceState == null) {
@@ -60,18 +57,15 @@ public class BakingWidgetConfigureActivity extends AppCompatActivity {
     }
 
     private void addViewModelObservers() {
-        viewModel.getHandleRecipeClickLiveData().observe(this, new Observer<Event<Boolean>>() {
-            @Override
-            public void onChanged(Event<Boolean> event) {
-                if (event != null && Boolean.TRUE.equals(event.getContentIfNotHandled())) {
-                    Context context = BakingWidgetConfigureActivity.this;
-                    PreferenceManager.getDefaultSharedPreferences(context).edit().putInt("widgetRecipeId" + appWidgetId, viewModel.getRecipeId()).apply();
-                    BakingWidget.refresh(context);
-                    Intent resultValue = new Intent();
-                    resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-                    setResult(RESULT_OK, resultValue);
-                    finish();
-                }
+        viewModel.getHandleRecipeClickLiveData().observe(this, event -> {
+            if (event != null && Boolean.TRUE.equals(event.getContentIfNotHandled())) {
+                Context context = BakingWidgetConfigureActivity.this;
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putInt("widgetRecipeId" + appWidgetId, viewModel.getRecipeId()).apply();
+                BakingWidget.refresh(context);
+                Intent resultValue = new Intent();
+                resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                setResult(RESULT_OK, resultValue);
+                finish();
             }
         });
     }

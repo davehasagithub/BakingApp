@@ -5,13 +5,7 @@ import android.os.SystemClock;
 import com.example.android.baking.data.repo.remote.ApiInterface;
 import com.squareup.moshi.Moshi;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
-
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
@@ -37,13 +31,9 @@ public class WebService {
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @NotNull
-                    @Override
-                    public Response intercept(@NotNull Chain chain) throws IOException {
-                        SystemClock.sleep(2000);
-                        return chain.proceed(chain.request());
-                    }
+                .addInterceptor(chain -> {
+                    SystemClock.sleep(2000);
+                    return chain.proceed(chain.request());
                 })
                 .addInterceptor(logging)
                 .build();

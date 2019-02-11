@@ -8,18 +8,15 @@ import android.view.WindowManager;
 import com.example.android.baking.R;
 import com.example.android.baking.databinding.MainActivityBinding;
 import com.example.android.baking.ui.masterdetail.MasterDetailFragment;
-import com.example.android.baking.utilities.Event;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
-    MainActivityBinding binding;
     private MainActivityViewModel viewModel;
 
     @Override
@@ -52,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
+        MainActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
 
@@ -68,21 +65,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addViewModelObservers() {
-        viewModel.getHandleRecipeClickLiveData().observe(this, new Observer<Event<Boolean>>() {
-            @Override
-            public void onChanged(Event<Boolean> event) {
-                    if (event != null && Boolean.TRUE.equals(event.getContentIfNotHandled())) {
-                        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.recipe_container);
-                        if (currentFragment instanceof RecipeFragment) {
-                            getSupportFragmentManager().beginTransaction()
-                                    .setReorderingAllowed(true)
-                                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                                    .detach(currentFragment)
-                                    .add(R.id.recipe_container, MasterDetailFragment.newInstance())
-                                    .commit();
-                        }
+        viewModel.getHandleRecipeClickLiveData().observe(this, event -> {
+                if (event != null && Boolean.TRUE.equals(event.getContentIfNotHandled())) {
+                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.recipe_container);
+                    if (currentFragment instanceof RecipeFragment) {
+                        getSupportFragmentManager().beginTransaction()
+                                .setReorderingAllowed(true)
+                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                                .detach(currentFragment)
+                                .add(R.id.recipe_container, MasterDetailFragment.newInstance())
+                                .commit();
                     }
-            }
+                }
         });
     }
 
@@ -102,11 +96,7 @@ public class MainActivity extends AppCompatActivity {
                             .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
                             .attach(recipeFragment)
                             .remove(currentFragment)
-                            .runOnCommit(new Runnable() {
-                                public void run() {
-                                    viewModel.clearRecipe();
-                                }
-                            })
+                            .runOnCommit(() -> viewModel.clearRecipe())
                             .commit();
                 }
             }
@@ -123,11 +113,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public static float getDpFromPixels(Context c, int px) {
+    private static float getDpFromPixels(Context c, int px) {
         return (int) (px / c.getResources().getDisplayMetrics().density + 0.5f);
     }
 
-    public void logScreenSpecs() {
+    private void logScreenSpecs() {
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         if (wm != null) {
             Point p = new Point();

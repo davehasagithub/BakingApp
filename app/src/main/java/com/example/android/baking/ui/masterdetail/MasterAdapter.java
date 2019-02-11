@@ -27,7 +27,7 @@ public class MasterAdapter extends ListAdapter<MasterItem, ViewHolder> {
 
     public static final int PAYLOAD_UPDATE_BACKGROUND = 0;
 
-    private MasterAdapterCallback masterAdapterCallback;
+    final private MasterAdapterCallback masterAdapterCallback;
 
     MasterAdapter(MasterAdapterCallback masterAdapterCallback) {
         super(MasterAdapter.DIFF_CALLBACK);

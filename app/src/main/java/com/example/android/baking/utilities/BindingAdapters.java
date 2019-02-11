@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 
+@SuppressWarnings("WeakerAccess")
 public class BindingAdapters {
 
     @BindingAdapter({"imageUrl"})

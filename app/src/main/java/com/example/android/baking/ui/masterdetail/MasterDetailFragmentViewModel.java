@@ -5,7 +5,6 @@ import com.example.android.baking.utilities.Event;
 
 import java.util.List;
 
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -15,13 +14,13 @@ import androidx.lifecycle.ViewModel;
 public class MasterDetailFragmentViewModel extends ViewModel {
 
     boolean initialized = false;
-    private MutableLiveData<Integer> masterItemIdLiveData = new MutableLiveData<>();
-    private MutableLiveData<List<MasterItem>> masterItemsLiveData = new MutableLiveData<>();
-    private MutableLiveData<Integer> masterItemIndexLiveData = new MutableLiveData<>();
-    private MutableLiveData<Boolean> twoPaneLiveData = new MutableLiveData<>();
-    private MutableLiveData<Boolean> nextItemAvailableLiveData = new MutableLiveData<>();
-    private MutableLiveData<Boolean> previousItemAvailableLiveData = new MutableLiveData<>();
-    private MutableLiveData<Event<Boolean>> handleMasterItemClickLiveData = new MutableLiveData<>();
+    final private MutableLiveData<Integer> masterItemIdLiveData = new MutableLiveData<>();
+    final private MutableLiveData<List<MasterItem>> masterItemsLiveData = new MutableLiveData<>();
+    final private MutableLiveData<Integer> masterItemIndexLiveData = new MutableLiveData<>();
+    final private MutableLiveData<Boolean> twoPaneLiveData = new MutableLiveData<>();
+    final private MutableLiveData<Boolean> nextItemAvailableLiveData = new MutableLiveData<>();
+    final private MutableLiveData<Boolean> previousItemAvailableLiveData = new MutableLiveData<>();
+    final private MutableLiveData<Event<Boolean>> handleMasterItemClickLiveData = new MutableLiveData<>();
     private int manualTapPendingPosition = -1;
     private int manualScrollPendingPosition = -1;
 
@@ -49,30 +48,27 @@ public class MasterDetailFragmentViewModel extends ViewModel {
     }
 
 
-    private LiveData<MasterItem> masterItemLiveData = Transformations.map(masterItemIdLiveData, new Function<Integer, MasterItem>() {
-        @Override
-        public MasterItem apply(Integer currentMasterItemId) {
-            MasterItem returnItem = null;
-            if (currentMasterItemId != null && currentMasterItemId != -1) {
-                List<MasterItem> items = masterItemsLiveData.getValue();
-                if (items != null) {
-                    for (int i = 0; i < items.size(); i++) {
-                        MasterItem item = items.get(i);
-                        if (item.getId() == currentMasterItemId) {
-                            returnItem = item;
-                            masterItemIndexLiveData.setValue(i);
-                            previousItemAvailableLiveData.setValue(i>0);
-                            nextItemAvailableLiveData.setValue(i<items.size()-1);
-                            break;
-                        }
+    final private LiveData<MasterItem> masterItemLiveData = Transformations.map(masterItemIdLiveData, currentMasterItemId -> {
+        MasterItem returnItem = null;
+        if (currentMasterItemId != null && currentMasterItemId != -1) {
+            List<MasterItem> items = masterItemsLiveData.getValue();
+            if (items != null) {
+                for (int i = 0; i < items.size(); i++) {
+                    MasterItem item = items.get(i);
+                    if (item.getId() == currentMasterItemId) {
+                        returnItem = item;
+                        masterItemIndexLiveData.setValue(i);
+                        previousItemAvailableLiveData.setValue(i>0);
+                        nextItemAvailableLiveData.setValue(i<items.size()-1);
+                        break;
                     }
                 }
             }
-            if (returnItem == null) {
-                masterItemIndexLiveData.setValue(-1);
-            }
-            return returnItem;
         }
+        if (returnItem == null) {
+            masterItemIndexLiveData.setValue(-1);
+        }
+        return returnItem;
     });
 
     public void init(int masterItemId) {

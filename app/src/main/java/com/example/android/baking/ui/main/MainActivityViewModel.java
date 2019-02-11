@@ -16,23 +16,22 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 
 @SuppressWarnings("WeakerAccess")
 public class MainActivityViewModel extends AndroidViewModel {
 
     boolean initialized = false;
-    private Context context = getApplication().getApplicationContext();
+    final private Context context = getApplication().getApplicationContext();
     private LiveData<List<Recipe>> recipesDbLiveData;
-    private MutableLiveData<Integer> recipeIdLiveData = new MutableLiveData<>();
-    private MediatorLiveData<Recipe> recipeLiveData = new MediatorLiveData<>();
-    private MutableLiveData<Integer> recipeIndexLiveData = new MutableLiveData<>();
-    private MediatorLiveData<RecipeLoadStatus> statusLiveData = new MediatorLiveData<>();
-    private MutableLiveData<List<Recipe>> placeholdersLiveData = new MutableLiveData<>();
-    private MutableLiveData<Event<Boolean>> handleRecipeClickLiveData = new MutableLiveData<>();
+    final private MutableLiveData<Integer> recipeIdLiveData = new MutableLiveData<>();
+    final private MediatorLiveData<Recipe> recipeLiveData = new MediatorLiveData<>();
+    final private MutableLiveData<Integer> recipeIndexLiveData = new MutableLiveData<>();
+    final private MediatorLiveData<RecipeLoadStatus> statusLiveData = new MediatorLiveData<>();
+    final private MutableLiveData<List<Recipe>> placeholdersLiveData = new MutableLiveData<>();
+    final private MutableLiveData<Event<Boolean>> handleRecipeClickLiveData = new MutableLiveData<>();
 
-    private LiveData<List<Recipe>> recipesLiveData = Transformations.switchMap(statusLiveData, new Function<RecipeLoadStatus, LiveData<List<Recipe>>>() {
+    final private LiveData<List<Recipe>> recipesLiveData = Transformations.switchMap(statusLiveData, new Function<RecipeLoadStatus, LiveData<List<Recipe>>>() {
         @Override
         public LiveData<List<Recipe>> apply(RecipeLoadStatus input) {
             boolean isDataLoadedSuccessfully = RecipeLoadStatus.SUCCESS.equals(statusLiveData.getValue());
@@ -52,19 +51,9 @@ public class MainActivityViewModel extends AndroidViewModel {
             recipeIdLiveData.setValue(recipeId);
             updateRecipes(false);
 
-            recipeLiveData.addSource(recipeIdLiveData, new Observer<Integer>() {
-                @Override
-                public void onChanged(Integer currentRecipeId) {
-                    findRecipeInListAndAssign(recipesLiveData.getValue(), currentRecipeId);
-                }
-            });
+            recipeLiveData.addSource(recipeIdLiveData, currentRecipeId -> findRecipeInListAndAssign(recipesLiveData.getValue(), currentRecipeId));
 
-            recipeLiveData.addSource(recipesLiveData, new Observer<List<Recipe>>() {
-                @Override
-                public void onChanged(List<Recipe> recipes) {
-                    findRecipeInListAndAssign(recipes, recipeIdLiveData.getValue());
-                }
-            });
+            recipeLiveData.addSource(recipesLiveData, recipes -> findRecipeInListAndAssign(recipes, recipeIdLiveData.getValue()));
         }
     }
 
@@ -90,12 +79,9 @@ public class MainActivityViewModel extends AndroidViewModel {
         if (!RecipeLoadStatus.LOADING.equals(statusLiveData.getValue())) {
             statusLiveData.setValue(RecipeLoadStatus.LOADING);
             final LiveData<Boolean> resultLiveData = RecipeRepository.getInstance().reloadRecipesIfNecessary(context, forceReload);
-            statusLiveData.addSource(resultLiveData, new Observer<Boolean>() {
-                @Override
-                public void onChanged(Boolean success) {
-                    statusLiveData.removeSource(resultLiveData);
-                    statusLiveData.setValue(success ? RecipeLoadStatus.SUCCESS : RecipeLoadStatus.FAIL);
-                }
+            statusLiveData.addSource(resultLiveData, success -> {
+                statusLiveData.removeSource(resultLiveData);
+                statusLiveData.setValue(success ? RecipeLoadStatus.SUCCESS : RecipeLoadStatus.FAIL);
             });
         }
     }

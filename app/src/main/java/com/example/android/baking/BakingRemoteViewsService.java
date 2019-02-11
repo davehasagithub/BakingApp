@@ -29,9 +29,9 @@ public class BakingRemoteViewsService extends RemoteViewsService {
 }
 
 class BakingRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private Context context;
+    final private Context context;
     private Recipe recipe;
-    private int appWidgetId;
+    final private int appWidgetId;
 
     public BakingRemoteViewsFactory(Context context, int appWidgetId) {
         this.context = context;

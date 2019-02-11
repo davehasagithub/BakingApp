@@ -15,7 +15,7 @@ import timber.log.Timber;
 
 public class BakingIntentService extends IntentService {
 
-    public static final String ACTION_UPDATE_BAKING_WIDGETS = "com.example.android.baking.action.update_baking_widgets";
+    private static final String ACTION_UPDATE_BAKING_WIDGETS = "com.example.android.baking.action.update_baking_widgets";
 
     public BakingIntentService() {
         super("BakingIntentService");

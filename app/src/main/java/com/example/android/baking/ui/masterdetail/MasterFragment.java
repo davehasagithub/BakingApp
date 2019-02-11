@@ -14,12 +14,9 @@ import com.example.android.baking.R;
 import com.example.android.baking.data.struct.MasterItem;
 import com.example.android.baking.databinding.MasterFragmentBinding;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -105,22 +102,14 @@ public class MasterFragment extends Fragment implements MasterAdapter.MasterAdap
     }
 
     private void addViewModelObservers() {
-        masterDetailFragmentViewModel.getMasterItemsLiveData().observe(getViewLifecycleOwner(), new Observer<List<MasterItem>>() {
-                    @Override
-                    public void onChanged(List<MasterItem> masterItems) {
-                        if (adapter != null) {
-                            adapter.submitList(masterItems);
-                        }
-                    }
-                }
+        masterDetailFragmentViewModel.getMasterItemsLiveData().observe(getViewLifecycleOwner(), masterItems -> {
+            if (adapter != null) {
+                adapter.submitList(masterItems);
+            }
+        }
         );
 
-        masterDetailFragmentViewModel.getMasterItemIndexLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer newPosition) {
-                updateSelectedPosition(newPosition);
-            }
-        });
+        masterDetailFragmentViewModel.getMasterItemIndexLiveData().observe(getViewLifecycleOwner(), this::updateSelectedPosition);
     }
 
     private void updateSelectedPosition(int position) {

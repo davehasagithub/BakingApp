@@ -1,15 +1,13 @@
 package com.example.android.baking.data.struct;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
-public class Recipe implements Parcelable {
+@SuppressWarnings({"unused", "WeakerAccess"})
+public class Recipe {
 
     @Embedded
     public RecipeDb recipeDb;
@@ -20,33 +18,10 @@ public class Recipe implements Parcelable {
     @Relation(parentColumn = "id", entityColumn = "recipeId", entity = StepDb.class)
     private List<StepDb> steps;
 
+    @SuppressWarnings("WeakerAccess")
     public Recipe(RecipeDb recipeDb) {
         this.recipeDb = recipeDb;
     }
-
-    protected Recipe(Parcel in) {
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
-        @Override
-        public Recipe createFromParcel(Parcel in) {
-            return new Recipe(in);
-        }
-
-        @Override
-        public Recipe[] newArray(int size) {
-            return new Recipe[size];
-        }
-    };
 
     public RecipeDb getRecipeDb() {
         return recipeDb;
@@ -72,7 +47,7 @@ public class Recipe implements Parcelable {
         this.steps = steps;
     }
 
-    public Recipe(RecipeRemote recipe) {
+    private Recipe(RecipeRemote recipe) {
         this.recipeDb = new RecipeDb(recipe);
         this.ingredients = IngredientDb.getIngredientList(recipe.getId(), recipe.getIngredients());
         this.steps = StepDb.getStepList(recipe.getId(), recipe.getSteps());

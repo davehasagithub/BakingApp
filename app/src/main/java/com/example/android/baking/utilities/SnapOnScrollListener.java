@@ -15,8 +15,8 @@ public class SnapOnScrollListener extends RecyclerView.OnScrollListener {
         void onSnapPositionChange(int position);
     }
 
-    private SnapHelper snapHelper;
-    private OnSnapPositionChangeListener onSnapPositionChangeListener;
+    final private SnapHelper snapHelper;
+    final private OnSnapPositionChangeListener onSnapPositionChangeListener;
 
     public SnapOnScrollListener(SnapHelper snapHelper, OnSnapPositionChangeListener onSnapPositionChangeListener) {
         this.snapHelper = snapHelper;

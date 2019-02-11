@@ -2,7 +2,8 @@ package com.example.android.baking.data.struct;
 
 import com.squareup.moshi.Json;
 
-public class StepRemote {
+@SuppressWarnings({"unused", "WeakerAccess"})
+class StepRemote {
 
     // ignoring json name = "id", making an index in StepDb.getStepList
 

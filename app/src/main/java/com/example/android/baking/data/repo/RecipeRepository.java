@@ -55,53 +55,44 @@ public class RecipeRepository {
         Timber.d("result: expiry time %d, since now: %d", expiryTime, System.currentTimeMillis() - lastDatabaseRefresh);
         boolean isStale = System.currentTimeMillis() - lastDatabaseRefresh > expiryTime;
         if (!EspressoIdlingResource.isInTest() && (forceReload || isStale)) {
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    AppDatabase.getInstance(context).recipeDao().deleteAll();
+            AppExecutors.getInstance().diskIO().execute(() -> {
+                AppDatabase.getInstance(context).recipeDao().deleteAll();
 
-                    AppExecutors.getInstance().mainThread().execute(new Runnable() {
+                AppExecutors.getInstance().mainThread().execute(() -> {
+                    Call<List<RecipeRemote>> callGood = WebService.api().getRecipes();
+                    Call<List<RecipeRemote>> callBad = WebService.api().getRecipesBad();
+                    int count = counter.incrementAndGet();
+                    Call<List<RecipeRemote>> call = (count < -1) ? callBad : callGood;
+                    call.enqueue(new Callback<List<RecipeRemote>>() {
                         @Override
-                        public void run() {
-                            Call<List<RecipeRemote>> callGood = WebService.api().getRecipes();
-                            Call<List<RecipeRemote>> callBad = WebService.api().getRecipesBad();
-                            int count = counter.incrementAndGet();
-                            Call<List<RecipeRemote>> call = (count < -1) ? callBad : callGood;
-                            call.enqueue(new Callback<List<RecipeRemote>>() {
-                                @Override
-                                public void onResponse(@NotNull Call<List<RecipeRemote>> call, @NotNull Response<List<RecipeRemote>> response) {
-                                    Timber.d("result: success:%s code:%d", response.isSuccessful(), response.code());
+                        public void onResponse(@NotNull Call<List<RecipeRemote>> call, @NotNull Response<List<RecipeRemote>> response) {
+                            Timber.d("result: success:%s code:%d", response.isSuccessful(), response.code());
 
-                                    final List<RecipeRemote> remoteRecipes = response.body();
-                                    if (remoteRecipes != null && remoteRecipes.size() > 0) {
+                            final List<RecipeRemote> remoteRecipes = response.body();
+                            if (remoteRecipes != null && remoteRecipes.size() > 0) {
 
-                                        final List<Recipe> recipes = Recipe.getRecipeList(remoteRecipes);
+                                final List<Recipe> recipes = Recipe.getRecipeList(remoteRecipes);
 
-                                        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                AppDatabase.getInstance(context).recipeDao().saveRecipesWithIngredientsAndSteps(recipes);
-                                                PreferenceManager.getDefaultSharedPreferences(context).edit().putLong("lastDatabaseRefresh", System.currentTimeMillis()).apply();
-                                                successLiveData.postValue(true);
+                                AppExecutors.getInstance().diskIO().execute(() -> {
+                                    AppDatabase.getInstance(context).recipeDao().saveRecipesWithIngredientsAndSteps(recipes);
+                                    PreferenceManager.getDefaultSharedPreferences(context).edit().putLong("lastDatabaseRefresh", System.currentTimeMillis()).apply();
+                                    successLiveData.postValue(true);
 
-                                                BakingWidget.refresh(context);
-                                            }
-                                        });
-                                    } else {
-                                        successLiveData.postValue(false);
-                                    }
-                                }
+                                    BakingWidget.refresh(context);
+                                });
+                            } else {
+                                successLiveData.postValue(false);
+                            }
+                        }
 
-                                @Override
-                                public void onFailure(@NotNull Call<List<RecipeRemote>> call, @NotNull Throwable t) {
-                                    Timber.e(t);
-                                    successLiveData.postValue(false);
-                                }
-                            });
-
+                        @Override
+                        public void onFailure(@NotNull Call<List<RecipeRemote>> call, @NotNull Throwable t) {
+                            Timber.e(t);
+                            successLiveData.postValue(false);
                         }
                     });
-                }
+
+                });
             });
         } else {
             successLiveData.setValue(true);

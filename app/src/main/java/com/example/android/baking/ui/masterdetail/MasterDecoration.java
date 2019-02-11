@@ -8,7 +8,7 @@ import com.example.android.baking.R;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MasterDecoration extends RecyclerView.ItemDecoration {
+class MasterDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         // https://stackoverflow.com/a/49915897
