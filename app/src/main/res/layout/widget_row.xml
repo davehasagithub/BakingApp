@@ -1,15 +1,9 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/widget_margin">
-
-    <TextView
-        android:id="@+id/appwidget_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:textColor="@color/widgetRowTextColor"
-        android:textSize="14sp" />
-
-</RelativeLayout>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/appwidget_text1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerVertical="true"
+    android:layout_margin="@dimen/widget_row_margin"
+    android:textColor="@color/widgetRowTextColor"
+    android:textSize="@dimen/widget_row_text_size" />

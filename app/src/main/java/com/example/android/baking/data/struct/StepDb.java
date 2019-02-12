@@ -51,7 +51,7 @@ public class StepDb {
     }
 
     public String getShortDescription() {
-        return StepDb.removeEndingPeriod(shortDescription);
+        return shortDescription;
     }
 
     public void setShortDescription(String shortDescription) {
@@ -59,7 +59,7 @@ public class StepDb {
     }
 
     public String getDescription() {
-        return StepDb.fixTemperatureSymbolMojibake(description);
+        return description;
     }
 
     public void setDescription(String description) {
@@ -96,6 +96,16 @@ public class StepDb {
             stepDbs.add(new StepDb(recipeId, stepRemote));
         }
         return stepDbs;
+    }
+
+    //
+
+    public String getCleanedShortDescription() {
+        return StepDb.removeEndingPeriod(shortDescription);
+    }
+
+    public String getCleanedDescription() {
+        return StepDb.fixTemperatureSymbolMojibake(description);
     }
 
     private static String fixTemperatureSymbolMojibake(String s) {

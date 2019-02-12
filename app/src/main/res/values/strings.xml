@@ -3,15 +3,15 @@
 
     <string name="retry_button">Retry</string>
     <string name="ingredients_title">Ingredients</string>
-    <string name="recipe_serves_how_many">Serves</string>
+    <string name="recipe_serves_how_many">Serves: %1$d</string>
 
     <string name="next_button"><![CDATA[Next >]]></string>
     <string name="previous_button"><![CDATA[< Previous]]></string>
 
     <string name="widget_configure">Select Recipe for Widget</string>
 
-    <string name="accessibility_play">Play</string>
-    <string name="accessibility_pause">Pause</string>
+    <string name="accessibility_play">Play Video</string>
+    <string name="accessibility_pause">Pause Video</string>
     <string name="accessibility_recipe_icon">Recipe Icon</string>
     <string name="accessibility_ingredient_icon">Ingredient Icon</string>
     <string name="accessibility_step_icon">Step Icon</string>

@@ -6,7 +6,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/master_padding">
 
         <FrameLayout
             android:id="@+id/master_container"
@@ -23,7 +24,7 @@
             android:id="@+id/line"
             android:layout_width="1dp"
             android:layout_height="0dp"
-            android:background="#ff999999"
+            android:background="@color/master_detail_separator_color"
 
             app:layout_constraintLeft_toRightOf="@+id/master_container"
             app:layout_constraintRight_toLeftOf="@+id/detail_container"
@@ -34,7 +35,6 @@
             android:id="@+id/detail_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#ffd8d8d8"
 
             app:layout_constraintWidth_percent="0.6"
             app:layout_constraintLeft_toRightOf="@+id/line"
@@ -44,4 +44,5 @@
             tools:ignore="InconsistentLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -238,7 +238,7 @@ public class MasterDetailFragment extends Fragment {
                     title = recipe.getRecipeDb().getName();
                     if (!viewModel.isTwoPane())
                         if (masterItem instanceof MasterItem.MasterItemStep) {
-                            subtitle = ((MasterItem.MasterItemStep) masterItem).getStep().getShortDescription();
+                            subtitle = ((MasterItem.MasterItemStep) masterItem).getStep().getCleanedShortDescription();
                         } else if (masterItem instanceof MasterItem.MasterItemIngredientsButton) {
                             subtitle = "Ingredients";
                         }

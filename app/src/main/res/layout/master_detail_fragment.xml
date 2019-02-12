@@ -7,6 +7,7 @@
         android:id="@+id/single_pane_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="@dimen/master_padding"
         tools:ignore="InconsistentLayout" />
 
 </layout>

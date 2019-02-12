@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="anim_duration">200</integer>
     <integer name="recipe_grid_columns">1</integer>
-    <integer name="expirationMinutes">30</integer>
+
+    <integer name="anim_duration">200</integer>
+
+    <!-- reload every half hour unless manually updated with swipe-down-to-refresh -->
+    <integer name="recipe_data_expiration_minutes">30</integer>
+
+    <integer name="exoplayer_controller_timeout_millis">3000</integer>
 </resources>

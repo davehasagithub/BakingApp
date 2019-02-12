@@ -40,6 +40,7 @@ public class IngredientsAdapter extends ListAdapter<IngredientDb, ViewHolder> {
         IngredientDb ingredient = getItem(position);
         if (ingredient != null) {
             viewHolder.binding.setIngredient(ingredient);
+            viewHolder.binding.executePendingBindings();
         }
     }
 

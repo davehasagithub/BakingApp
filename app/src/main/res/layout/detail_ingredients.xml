@@ -2,16 +2,6 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="ingredients"
-            type="com.example.android.baking.data.struct.IngredientDb" />
-
-    </data>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_ingredients"
         android:layout_width="match_parent"

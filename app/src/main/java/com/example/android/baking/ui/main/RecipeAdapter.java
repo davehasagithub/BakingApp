@@ -117,7 +117,7 @@ public class RecipeAdapter extends ListAdapter<Recipe, ViewHolder> implements De
         Recipe recipe = getItem(position);
         boolean selected = (recipeAdapterCallback != null && recipeAdapterCallback.isActivePosition(position));
         Context context = viewHolder.binding.getRoot().getContext();
-        int color = ContextCompat.getColor(context, recipe.recipeDb.isPlaceholder() ? R.color.cardBackgroundPlaceholderColor : (selected ? R.color.cardBackgroundSelectedColor : R.color.cardBackgroundColor));
+        int color = ContextCompat.getColor(context, recipe.recipeDb.isPlaceholder() ? R.color.recipeCardBackgroundPlaceholderColor : (selected ? R.color.recipeCardBackgroundSelectedColor : R.color.recipeCardBackgroundColor));
         viewHolder.binding.card.setCardBackgroundColor(color);
     }
 
@@ -130,7 +130,8 @@ public class RecipeAdapter extends ListAdapter<Recipe, ViewHolder> implements De
             viewHolder.binding.setText(recipe.recipeDb.getName());
             viewHolder.binding.setImageUrl(recipe.recipeDb.getImageUrl());
             viewHolder.binding.setImageContentDescription(context.getString(R.string.accessibility_recipe_icon));
-            viewHolder.binding.setSecondRow(context.getString(R.string.recipe_serves_how_many) + " " + recipe.recipeDb.getServings());
+            viewHolder.binding.setSecondRow(context.getString(R.string.recipe_serves_how_many, recipe.recipeDb.getServings()));
+            viewHolder.binding.executePendingBindings();
             updateBackgroundColor(viewHolder, position);
         }
     }

@@ -11,8 +11,6 @@ import android.widget.RemoteViewsService;
 import com.example.android.baking.data.repo.RecipeRepository;
 import com.example.android.baking.data.struct.Recipe;
 
-import timber.log.Timber;
-
 public class BakingRemoteViewsService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
@@ -40,7 +38,6 @@ class BakingRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory 
 
     @Override
     public void onDataSetChanged() {
-        Timber.d("xxx onDataSetChanged");
         int widgetRecipeId = PreferenceManager.getDefaultSharedPreferences(context).getInt("widgetRecipeId" + appWidgetId, 0);
         recipe = RecipeRepository.getInstance().loadRecipe(context, widgetRecipeId);
     }
@@ -53,7 +50,8 @@ class BakingRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory 
     @Override
     public RemoteViews getViewAt(int position) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_row);
-        views.setTextViewText(R.id.appwidget_text, recipe.getIngredients().get(position).getCombinedDescription(context));
+        views.setTextViewText(R.id.appwidget_text1, recipe.getIngredients().get(position).getCombinedAndCleanedDescription(context));
+        views.setOnClickFillInIntent(R.id.appwidget_text1, new Intent());
         return views;
     }
 

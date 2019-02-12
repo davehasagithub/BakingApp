@@ -17,6 +17,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.swipeRight;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -52,7 +53,6 @@ public class RecipeNavigationTest {
 
     @Test
     public void myTest() {
-        //onView(withId(R.id.recyclerview_recipes)).perform(actionOnItem(hasDescendant(withText(RecipeAdapter.RECIPE_NAME_FOR_TEST)), click()));
 
         onView(withText(RecipeAdapter.RECIPE_NAME_FOR_TEST)).perform(click());
         onView(withText("Ingredients")).perform(click());
@@ -60,6 +60,9 @@ public class RecipeNavigationTest {
         onView(withText(containsString("BITTERSWEET CHOCOLATE"))).check(matches(isDisplayed()));
 
         onView(withId(R.id.recyclerview_detail_items)).perform(scrollToPosition(10));
-        onView(withTagValue(is("position10"))).check(matches(withText(containsStringIgnoringCase("cut and serve"))));
+        onView(withText(containsStringIgnoringCase("9. cut and serve"))).check(matches(isDisplayed()));
+
+        onView(withId(R.id.recyclerview_detail_items)).perform(swipeRight()).perform(swipeRight());
+        onView(withTagValue(is("position8"))).check(matches(withText(containsStringIgnoringCase("pour the batter into"))));
     }
 }

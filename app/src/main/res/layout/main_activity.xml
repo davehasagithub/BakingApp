@@ -60,4 +60,5 @@
             android:text="@string/retry_button" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </layout>

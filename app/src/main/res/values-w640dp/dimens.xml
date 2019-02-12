@@ -2,7 +2,8 @@
 <resources>
     <dimen name="master_padding">24dp</dimen>
 
-    <dimen name="exo_play_button_size">60dp</dimen>
+    <dimen name="exoplayer_play_button_size">60dp</dimen>
+
     <dimen name="space_above_detail_slider_scrollbar">12dp</dimen>
     <dimen name="space_below_detail_slider_scrollbar">12dp</dimen>
 

@@ -23,10 +23,12 @@
             android:ellipsize="end"
             android:text='@{ingredient.getCombinedDescription(context)}'
             android:textColor="@color/ingredientsScreenTextColor"
+            android:textSize="@dimen/ingredient_screen_text_size"
 
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

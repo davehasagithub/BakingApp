@@ -70,7 +70,7 @@ public class DetailAdapter extends ListAdapter<MasterItem, ViewHolder> implement
         super(DetailAdapter.DIFF_CALLBACK);
 
         this.detailAdapterCallback = detailAdapterCallback;
-        this.dataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, "blah"));
+        this.dataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, "RecipeAgent"));
         this.player = ExoPlayerFactory.newSimpleInstance(context);
 
         lifecycle.addObserver(this);
@@ -169,7 +169,8 @@ public class DetailAdapter extends ListAdapter<MasterItem, ViewHolder> implement
             if (viewType == MasterAdapter.VIEW_TYPE_STEP) {
                 DetailStepBinding binding = (DetailStepBinding) viewHolder.binding;
                 binding.setStep(((MasterItem.MasterItemStep) item).getStep());
-                ((DetailStepBinding) viewHolder.binding).tvRecipeName.setTag("position" + position);
+                binding.tvRecipeName.setTag("position" + position); // used in espresso test
+                binding.executePendingBindings();
             } else if (viewType == MasterAdapter.VIEW_TYPE_INGREDIENTS_BUTTON) {
                 DetailIngredientsBinding binding = (DetailIngredientsBinding) viewHolder.binding;
 

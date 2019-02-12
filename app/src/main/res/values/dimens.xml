@@ -2,11 +2,26 @@
 <resources>
     <dimen name="master_padding">16dp</dimen>
 
-    <dimen name="exo_play_button_size">40dp</dimen>
+    <dimen name="exoplayer_play_button_size">40dp</dimen>
+    <dimen name="exoplayer_progress_height">14dp</dimen>
+
     <dimen name="space_above_detail_slider_scrollbar">8dp</dimen>
     <dimen name="space_below_detail_slider_scrollbar">8dp</dimen>
 
     <dimen name="scrollbar_size">4dp</dimen>
 
-    <dimen name="widget_margin">0dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="card_elevation_placeholder">0dp</dimen>
+    <dimen name="card_text_size">20sp</dimen>
+    <dimen name="card_second_row_text_size">14sp</dimen>
+    <dimen name="card_second_row_margin_top">4dp</dimen>
+
+    <dimen name="step_screen_text_size">20sp</dimen>
+    <dimen name="ingredient_screen_text_size">20sp</dimen>
+
+    <dimen name="widget_header_text_size">12sp</dimen>
+    <dimen name="widget_header_padding">8dp</dimen>
+    <dimen name="widget_row_text_size">12sp</dimen>
+    <dimen name="widget_row_margin">8dp</dimen>
+
 </resources>

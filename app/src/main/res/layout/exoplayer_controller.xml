@@ -8,8 +8,8 @@
 
     <ImageButton
         android:id="@id/exo_play"
-        android:layout_width="@dimen/exo_play_button_size"
-        android:layout_height="@dimen/exo_play_button_size"
+        android:layout_width="@dimen/exoplayer_play_button_size"
+        android:layout_height="@dimen/exoplayer_play_button_size"
         android:background="@color/stepScreenPlayerButtonBackgroundColor"
         android:contentDescription="@string/accessibility_play"
         style="@style/ExoMediaButton.Play"
@@ -21,8 +21,8 @@
 
     <ImageButton
         android:id="@id/exo_pause"
-        android:layout_width="@dimen/exo_play_button_size"
-        android:layout_height="@dimen/exo_play_button_size"
+        android:layout_width="@dimen/exoplayer_play_button_size"
+        android:layout_height="@dimen/exoplayer_play_button_size"
         android:background="@color/stepScreenPlayerButtonBackgroundColor"
         android:contentDescription="@string/accessibility_pause"
         style="@style/ExoMediaButton.Pause"
@@ -35,7 +35,7 @@
     <com.google.android.exoplayer2.ui.DefaultTimeBar
         android:id="@id/exo_progress"
         android:layout_width="0dp"
-        android:layout_height="26dp"
+        android:layout_height="@dimen/exoplayer_progress_height"
         android:layout_marginStart="@dimen/master_padding"
         android:layout_marginEnd="@dimen/master_padding"
         android:layout_marginBottom="@dimen/master_padding"

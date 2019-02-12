@@ -9,7 +9,6 @@ import com.example.android.baking.data.repo.db.AppDatabase;
 import com.example.android.baking.data.struct.Recipe;
 import com.example.android.baking.data.struct.RecipeRemote;
 import com.example.android.baking.utilities.AppExecutors;
-import com.example.android.baking.utilities.EspressoIdlingResource;
 import com.example.android.baking.utilities.WebService;
 
 import org.jetbrains.annotations.NotNull;
@@ -51,10 +50,10 @@ public class RecipeRepository {
     public MutableLiveData<Boolean> reloadRecipesIfNecessary(final Context context, boolean forceReload) {
         final MutableLiveData<Boolean> successLiveData = new MutableLiveData<>();
         long lastDatabaseRefresh = PreferenceManager.getDefaultSharedPreferences(context).getLong("lastDatabaseRefresh", 0);
-        long expiryTime = TimeUnit.MILLISECONDS.convert(context.getResources().getInteger(R.integer.expirationMinutes), TimeUnit.MINUTES);
+        long expiryTime = TimeUnit.MILLISECONDS.convert(context.getResources().getInteger(R.integer.recipe_data_expiration_minutes), TimeUnit.MINUTES);
         Timber.d("result: expiry time %d, since now: %d", expiryTime, System.currentTimeMillis() - lastDatabaseRefresh);
         boolean isStale = System.currentTimeMillis() - lastDatabaseRefresh > expiryTime;
-        if (!EspressoIdlingResource.isInTest() && (forceReload || isStale)) {
+        if (forceReload || isStale) {
             AppExecutors.getInstance().diskIO().execute(() -> {
                 AppDatabase.getInstance(context).recipeDao().deleteAll();
 

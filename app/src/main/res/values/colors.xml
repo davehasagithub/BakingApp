@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#ffb74d</color>
+    <color name="colorPrimaryDark">#c88719</color>
+    <color name="colorAccent">#00acc1</color>
 
-    <color name="cardTextColor">#ffffffff</color>
-    <color name="cardBackgroundColor">#ffff0000</color>
-    <color name="cardBackgroundSelectedColor">#ff00ff00</color>
-    <color name="cardBackgroundPlaceholderColor">#ff0000ff</color>
+    <color name="cardTextColor">#000000</color>
+    <color name="cardSecondRowTextColor">#999999</color>
+
+    <color name="recipe_screen_background_color">#ffffff</color>
+
+    <color name="recipeCardBackgroundColor">#ffe97d</color>
+    <color name="recipeCardBackgroundSelectedColor">#4fc3f7</color>
+    <color name="recipeCardBackgroundPlaceholderColor">#eeeeee</color>
+
+    <color name="stepCardBackgroundColor">#ffe97d</color>
+    <color name="stepCardBackgroundSelectedColor">#4fc3f7</color>
 
     <color name="ingredientsScreenTextColor">#ffffffff</color>
     <color name="ingredientsScreenBackgroundColor">#ff81B1FF</color>
@@ -17,8 +24,10 @@
     <color name="stepScreenPlayerShutterColor">#33000000</color>
     <color name="stepScreenPlayerButtonBackgroundColor">#CC000000</color>
 
-    <color name="widgetBackgroundColor">#09C</color>
-    <color name="widgetHeaderBackgroundColor">#ff00ff00</color>
+    <color name="master_detail_separator_color">#ff999999</color>
+
+    <color name="widgetBackgroundColor">@color/colorPrimaryDark</color>
+    <color name="widgetHeaderBackgroundColor">@color/colorPrimary</color>
     <color name="widgetHeaderTextColor">#ffffff</color>
     <color name="widgetDividerColor">#eeeeee</color>
     <color name="widgetRowTextColor">#ffffff</color>

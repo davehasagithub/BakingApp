@@ -85,7 +85,7 @@ public class MasterAdapter extends ListAdapter<MasterItem, ViewHolder> {
 
     private void updateBackgroundColor(ViewHolder viewHolder, int position) {
         boolean selected = (masterAdapterCallback != null && masterAdapterCallback.isActivePosition(position));
-        int color = ContextCompat.getColor(viewHolder.binding.getRoot().getContext(), selected ? R.color.cardBackgroundSelectedColor : R.color.cardBackgroundColor);
+        int color = ContextCompat.getColor(viewHolder.binding.getRoot().getContext(), selected ? R.color.stepCardBackgroundSelectedColor : R.color.stepCardBackgroundColor);
         viewHolder.binding.card.setCardBackgroundColor(color);
     }
 
@@ -95,7 +95,7 @@ public class MasterAdapter extends ListAdapter<MasterItem, ViewHolder> {
         if (item != null) {
             Context context = viewHolder.binding.getRoot().getContext();
             if (item instanceof MasterItemStep) {
-                viewHolder.binding.setText(((MasterItemStep) item).getStep().getShortDescription());
+                viewHolder.binding.setText(((MasterItemStep) item).getStep().getCleanedShortDescription());
                 viewHolder.binding.setImageUrl(((MasterItemStep) item).getStep().getThumbnailUrl());
                 viewHolder.binding.setImageContentDescription(context.getString(R.string.accessibility_step_icon));
             } else {
@@ -103,6 +103,7 @@ public class MasterAdapter extends ListAdapter<MasterItem, ViewHolder> {
                 viewHolder.binding.setImageUrl(null);
                 viewHolder.binding.setImageContentDescription(context.getString(R.string.accessibility_ingredient_icon));
             }
+            viewHolder.binding.executePendingBindings();
             updateBackgroundColor(viewHolder, position);
         }
     }

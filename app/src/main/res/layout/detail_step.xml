@@ -23,6 +23,7 @@
             android:id="@+id/sv_step_text"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:fadeScrollbars="false"
 
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -33,8 +34,9 @@
                 android:id="@+id/tv_recipe_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{step.description}"
-                android:textColor="@color/stepScreenTextColor" />
+                android:text="@{step.cleanedDescription}"
+                android:textColor="@color/stepScreenTextColor"
+                android:textSize="@dimen/step_screen_text_size" />
 
         </ScrollView>
 
@@ -42,13 +44,11 @@
             android:id="@+id/player_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="visible"
             android:layout_marginTop="@dimen/master_padding"
-            app:surface_type="texture_view"
             app:keep_content_on_player_reset="false"
             app:shutter_background_color="@color/stepScreenPlayerShutterColor"
             app:resize_mode="zoom"
-            app:show_timeout="3000"
+            app:show_timeout="@integer/exoplayer_controller_timeout_millis"
             app:hide_on_touch="true"
             app:controller_layout_id="@layout/exoplayer_controller"
 
@@ -59,4 +59,5 @@
             app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

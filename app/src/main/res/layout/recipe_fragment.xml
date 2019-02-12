@@ -16,6 +16,7 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/recipe_screen_background_color"
         app:refreshing="@{safeUnbox(mainActivityViewModel.statusLiveData == RecipeLoadStatus.LOADING)}"
         app:onRefreshListener="@{() -> mainActivityViewModel.onRetryButtonClick()}">
 
@@ -24,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
+            android:layout_margin="@dimen/master_padding"
             style="@style/recipe_scrollbar" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

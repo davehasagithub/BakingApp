@@ -1,9 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/widget_wrapper"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/widgetBackgroundColor"
-              android:padding="@dimen/widget_margin"
               android:orientation="vertical"
               tools:ignore="Overdraw">
 
@@ -11,10 +11,13 @@
         android:id="@+id/appwidget_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:padding="@dimen/widget_header_padding"
         android:background="@color/widgetHeaderBackgroundColor"
         android:textColor="@color/widgetHeaderTextColor"
-        android:textSize="12sp"
+        android:textSize="@dimen/widget_header_text_size"
         android:textStyle="bold|italic" />
 
     <ListView
