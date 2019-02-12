@@ -50,7 +50,7 @@ class BakingRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory 
     @Override
     public RemoteViews getViewAt(int position) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_row);
-        views.setTextViewText(R.id.appwidget_text1, recipe.getIngredients().get(position).getCombinedAndCleanedDescription(context));
+        views.setTextViewText(R.id.appwidget_text1, recipe.getIngredients().get(position).getCombinedAndCleanedIngredientDescription(context));
         views.setOnClickFillInIntent(R.id.appwidget_text1, new Intent());
         return views;
     }

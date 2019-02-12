@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:gravity="start|center_vertical"
             android:ellipsize="end"
-            android:text='@{ingredient.getCombinedDescription(context)}'
+            android:text='@{ingredient.getCombinedAndCleanedIngredientDescription(context)}'
             android:textColor="@color/ingredientsScreenTextColor"
             android:textSize="@dimen/ingredient_screen_text_size"
 

@@ -26,9 +26,9 @@
             android:fadeScrollbars="false"
 
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/player_view"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toTopOf="@+id/player_view">
 
             <TextView
                 android:id="@+id/tv_recipe_name"
@@ -44,7 +44,7 @@
             android:id="@+id/player_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/master_padding"
+            android:layout_marginTop="@dimen/master_padding"
             app:keep_content_on_player_reset="false"
             app:shutter_background_color="@color/stepScreenPlayerShutterColor"
             app:resize_mode="zoom"
@@ -52,10 +52,10 @@
             app:hide_on_touch="true"
             app:controller_layout_id="@layout/exoplayer_controller"
 
-            app:layout_constraintWidth_percent="0.5"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/sv_step_text"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/sv_step_text"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

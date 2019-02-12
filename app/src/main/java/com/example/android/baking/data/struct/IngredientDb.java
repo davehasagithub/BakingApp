@@ -95,7 +95,7 @@ public class IngredientDb {
 
     //
 
-    public Spannable getCombinedAndCleanedDescription(Context context) {
+    public Spannable getCombinedAndCleanedIngredientDescription(Context context) {
         StringBuilder s = new StringBuilder();
         s.append(quantity.replaceAll("\\.0$", ""));
         s.append(" ");
