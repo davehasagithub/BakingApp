@@ -5,7 +5,7 @@
     <string name="ingredients_title">Ingredients</string>
     <string name="recipe_serves_how_many">Serves</string>
 
-    <string name="next_button">next_button</string>
+    <string name="next_button"><![CDATA[Next >]]></string>
     <string name="previous_button"><![CDATA[< Previous]]></string>
 
     <string name="widget_configure">Select Recipe for Widget</string>
