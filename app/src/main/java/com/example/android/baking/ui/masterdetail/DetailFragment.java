@@ -104,7 +104,6 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
         PagerSnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(binding.recyclerviewDetailItems);
         SnapOnScrollListener snapOnScrollListener = new SnapOnScrollListener(snapHelper, newPosition -> {
-            Timber.v("onSnapPositionChange %d", newPosition);
             if (masterDetailFragmentViewModel.initiateManualScroll(newPosition)) {
                 Timber.v("initiateManualScroll %d", newPosition);
                 List<MasterItem> masterItems = masterDetailFragmentViewModel.getMasterItemsLiveData().getValue();
@@ -136,7 +135,6 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
         );
 
         masterDetailFragmentViewModel.getMasterItemIndexLiveData().observe(getViewLifecycleOwner(), newPosition -> {
-            Timber.v("onChanged %d", newPosition);
             if (masterDetailFragmentViewModel.initiateManualTap(newPosition)) {
                 Timber.v("initiateManualTap %d", newPosition);
                 if (newPosition != -1) {
@@ -149,7 +147,7 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
 
                 }
             } else {
-                Timber.d("onChanged %d [ignored]", newPosition);
+                Timber.d("initiateManualTap %d [ignored]", newPosition);
             }
 
             updateSelectedPosition(newPosition);
