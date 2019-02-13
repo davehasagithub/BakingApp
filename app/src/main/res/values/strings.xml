@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Baking Time!</string>
+    <string name="app_name">Bakeroo</string>
 
     <string name="recipe_service_domain">http://go.udacity.com/</string>
     <string name="recipe_service_endpoint">android-baking-app-json</string>
