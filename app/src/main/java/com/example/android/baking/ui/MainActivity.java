@@ -45,17 +45,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void addViewModelObservers() {
         viewModel.getHandleRecipeClickLiveData().observe(this, event -> {
-                if (event != null && Boolean.TRUE.equals(event.getContentIfNotHandled())) {
-                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.recipe_container);
-                    if (currentFragment instanceof RecipeFragment) {
-                        getSupportFragmentManager().beginTransaction()
-                                .setReorderingAllowed(true)
-                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                                .detach(currentFragment)
-                                .add(R.id.recipe_container, MasterDetailFragment.newInstance())
-                                .commit();
-                    }
+            if (event != null && Boolean.TRUE.equals(event.getContentIfNotHandled())) {
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.recipe_container);
+                if (currentFragment instanceof RecipeFragment) {
+                    getSupportFragmentManager().beginTransaction()
+                            .setReorderingAllowed(true)
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .detach(currentFragment)
+                            .add(R.id.recipe_container, MasterDetailFragment.newInstance())
+                            .commit();
                 }
+            }
         });
     }
 

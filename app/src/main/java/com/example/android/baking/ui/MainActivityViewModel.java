@@ -61,21 +61,21 @@ public class MainActivityViewModel extends AndroidViewModel {
     }
 
     public void findRecipeInListAndAssign(List<Recipe> recipes, Integer currentRecipeId) {
-            Recipe returnRecipe = null;
-            recipeIndexLiveData.setValue(-1);
-            if (currentRecipeId != null && currentRecipeId != -1) {
-                if (recipes != null) {
-                    for (int i = 0; i < recipes.size(); i++) {
-                        Recipe recipe = recipes.get(i);
-                        if (recipe.getRecipeDb().getId() == currentRecipeId) {
-                            returnRecipe = recipe;
-                            recipeIndexLiveData.setValue(i);
-                            break;
-                        }
+        Recipe returnRecipe = null;
+        recipeIndexLiveData.setValue(-1);
+        if (currentRecipeId != null && currentRecipeId != -1) {
+            if (recipes != null) {
+                for (int i = 0; i < recipes.size(); i++) {
+                    Recipe recipe = recipes.get(i);
+                    if (recipe.getRecipeDb().getId() == currentRecipeId) {
+                        returnRecipe = recipe;
+                        recipeIndexLiveData.setValue(i);
+                        break;
                     }
                 }
             }
-            recipeLiveData.setValue(returnRecipe);
+        }
+        recipeLiveData.setValue(returnRecipe);
     }
 
     public void updateRecipes(boolean forceReload) {

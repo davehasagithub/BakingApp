@@ -1,8 +1,8 @@
 package com.example.android.baking.data.repo.db;
 
 import com.example.android.baking.data.struct.IngredientDb;
-import com.example.android.baking.data.struct.RecipeDb;
 import com.example.android.baking.data.struct.Recipe;
+import com.example.android.baking.data.struct.RecipeDb;
 import com.example.android.baking.data.struct.StepDb;
 
 import java.util.List;

@@ -36,6 +36,7 @@ public class MasterAdapter extends ListAdapter<MasterItem, ViewHolder> {
 
     public interface MasterAdapterCallback {
         void onClickItem(int position, MasterItem item);
+
         boolean isActivePosition(int position);
     }
 

@@ -105,10 +105,10 @@ public class MasterFragment extends Fragment implements MasterAdapter.MasterAdap
 
     private void addViewModelObservers() {
         masterDetailFragmentViewModel.getMasterItemsLiveData().observe(getViewLifecycleOwner(), masterItems -> {
-            if (adapter != null) {
-                adapter.submitList(masterItems);
-            }
-        }
+                    if (adapter != null) {
+                        adapter.submitList(masterItems);
+                    }
+                }
         );
 
         masterDetailFragmentViewModel.getMasterItemIndexLiveData().observe(getViewLifecycleOwner(), this::updateSelectedPosition);
