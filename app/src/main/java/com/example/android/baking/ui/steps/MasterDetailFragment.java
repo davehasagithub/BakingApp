@@ -1,4 +1,4 @@
-package com.example.android.baking.ui.masterdetail;
+package com.example.android.baking.ui.steps;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +12,9 @@ import com.example.android.baking.R;
 import com.example.android.baking.data.struct.MasterItem;
 import com.example.android.baking.data.struct.Recipe;
 import com.example.android.baking.databinding.MasterDetailFragmentBinding;
-import com.example.android.baking.ui.main.MainActivityViewModel;
+import com.example.android.baking.ui.MainActivityViewModel;
+import com.example.android.baking.ui.steps.detail.DetailFragment;
+import com.example.android.baking.ui.steps.master.MasterFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +32,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 public class MasterDetailFragment extends Fragment {
 
-    final static boolean AUTO_SELECT_FIRST_ON_TWO_PANE = true;
+    // this can be used to change the ui behavior. if false:
+    // - the detail pane will be initially empty until a master item is selected.
+    // - if the same item is clicked again, the detail pane goes away.
+    // - when going from 2 pane to 1, the user returns to the master list if no detail was showing.
+    public final static boolean AUTO_SELECT_FIRST_ON_TWO_PANE = true;
 
     private MasterDetailFragmentBinding binding;
     private MasterDetailFragmentViewModel viewModel;
@@ -106,53 +112,60 @@ public class MasterDetailFragment extends Fragment {
             fragmentTransaction.commit();
         } else {
             if (savedInstanceState.getBoolean("wasTwoPane", false) != viewModel.isTwoPane()) {
-                if (viewModel.isTwoPane() && MasterDetailFragment.AUTO_SELECT_FIRST_ON_TWO_PANE) {
-                    viewModel.selectFirstMasterItemIfNotSet();
-                }
-
-                MasterFragment masterFragment = (MasterFragment) fragmentManager.findFragmentByTag("master");
-                if (masterFragment != null) {
-                    DetailFragment detailFragment = (DetailFragment) fragmentManager.findFragmentByTag("detail");
-
-                    if (detailFragment == null && MasterDetailFragment.AUTO_SELECT_FIRST_ON_TWO_PANE) {
-                        detailFragment = DetailFragment.newInstance();
-                    }
-
-                    boolean detailsActive = detailFragment != null; // && !detailFragment.isDetached() && viewModel.getMasterItemId() != -1;
-
-                    FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
-                    fragmentTransaction1.remove(masterFragment);
-                    if (detailsActive) {
-                        fragmentTransaction1.remove(detailFragment);
-                    }
-                    fragmentTransaction1.commitNow();
-
-                    FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
-                    fragmentTransaction2.add(viewModel.isTwoPane() ? R.id.master_container : R.id.single_pane_container, masterFragment, "master");
-                    if (detailsActive) {
-                        fragmentTransaction2.add(viewModel.isTwoPane() ? R.id.detail_container : R.id.single_pane_container, detailFragment, "detail");
-                    }
-                    if (!viewModel.isTwoPane() && detailsActive) {
-                        fragmentTransaction2.detach(masterFragment);
-                    }
-                    fragmentTransaction2.commit();
-                }
+                handleChangeInPaneCount(fragmentManager);
             }
         }
     }
 
+    private void handleChangeInPaneCount(FragmentManager fragmentManager) {
+        if (viewModel.isTwoPane() && MasterDetailFragment.AUTO_SELECT_FIRST_ON_TWO_PANE) {
+            viewModel.selectFirstMasterItemIfNotSet();
+        }
+
+        MasterFragment masterFragment = (MasterFragment) fragmentManager.findFragmentByTag("master");
+        if (masterFragment != null) {
+            DetailFragment detailFragment = (DetailFragment) fragmentManager.findFragmentByTag("detail");
+
+            if (detailFragment == null && MasterDetailFragment.AUTO_SELECT_FIRST_ON_TWO_PANE) {
+                detailFragment = DetailFragment.newInstance();
+            }
+
+            boolean detailsActive = detailFragment != null;
+
+            FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
+            fragmentTransaction1.remove(masterFragment);
+            if (detailsActive) {
+                fragmentTransaction1.remove(detailFragment);
+            }
+            fragmentTransaction1.commitNow();
+
+            FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
+            fragmentTransaction2.add(viewModel.isTwoPane() ? R.id.master_container : R.id.single_pane_container, masterFragment, "master");
+            if (detailsActive) {
+                fragmentTransaction2.add(viewModel.isTwoPane() ? R.id.detail_container : R.id.single_pane_container, detailFragment, "detail");
+            }
+            if (!viewModel.isTwoPane() && detailsActive) {
+                fragmentTransaction2.detach(masterFragment);
+            }
+            fragmentTransaction2.commit();
+        }
+    }
+
+    private List<MasterItem> createMasterItems(Recipe recipe) {
+        List<MasterItem> masterItems = new ArrayList<>();
+        masterItems.add(new MasterItem.MasterItemIngredientsButton(recipe.getIngredients()));
+        for (int i = 0; i < recipe.getSteps().size(); i++) {
+            masterItems.add(new MasterItem.MasterItemStep(recipe.getSteps().get(i)));
+        }
+        return masterItems;
+    }
+
     private void addViewModelObservers() {
-        //            boolean inited = false;
         activityViewModel.getRecipeLiveData().observe(getViewLifecycleOwner(), recipe -> {
             updateTitle();
 
             if (recipe != null) {
-                List<MasterItem> masterItems = new ArrayList<>();
-                masterItems.add(new MasterItem.MasterItemIngredientsButton(recipe.getIngredients()));
-                for (int i = 0; i < recipe.getSteps().size(); i++) {
-                    masterItems.add(new MasterItem.MasterItemStep(recipe.getSteps().get(i)));
-                }
-                viewModel.setMasterItems(masterItems);
+                viewModel.setMasterItems(createMasterItems(recipe));
             }
         });
 
@@ -163,43 +176,51 @@ public class MasterDetailFragment extends Fragment {
                 Boolean load = event.getContentIfNotHandled();
                 if (load != null) {
                     if (load) {
-                        FragmentManager fragmentManager = getChildFragmentManager();
-                        if (viewModel.isTwoPane()) {
-                            Fragment detailFragment = fragmentManager.findFragmentById(R.id.detail_container);
-                            if (detailFragment == null) {
-                                detailFragment = DetailFragment.newInstance();
-                                fragmentManager.beginTransaction()
-                                        .setReorderingAllowed(true)
-                                        .replace(R.id.detail_container, detailFragment, "detail")
-                                        .commit();
-                            }
-                        } else {
-                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.single_pane_container);
-                            if (currentFragment instanceof MasterFragment) {
-                                DetailFragment detailFragment = DetailFragment.newInstance();
-                                fragmentManager.beginTransaction()
-                                        .setReorderingAllowed(true)
-                                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                                        .detach(currentFragment)
-                                        .add(R.id.single_pane_container, detailFragment, "detail")
-                                        .commit();
-                            }
-                        }
+                        handleMasterItemClick();
                     } else {
-                        FragmentManager fragmentManager = getChildFragmentManager();
-                        if (viewModel.isTwoPane()) {
-                            Fragment detailFragment = fragmentManager.findFragmentById(R.id.detail_container);
-                            if (detailFragment instanceof DetailFragment) {
-                                fragmentManager.beginTransaction()
-                                        .setReorderingAllowed(true)
-                                        .remove(detailFragment)
-                                        .commit();
-                            }
-                        }
+                        handleMasterItemReclick();
                     }
                 }
             }
         });
+    }
+
+    private void handleMasterItemClick() {
+        FragmentManager fragmentManager = getChildFragmentManager();
+        if (viewModel.isTwoPane()) {
+            Fragment detailFragment = fragmentManager.findFragmentById(R.id.detail_container);
+            if (detailFragment == null) {
+                detailFragment = DetailFragment.newInstance();
+                fragmentManager.beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.detail_container, detailFragment, "detail")
+                        .commit();
+            }
+        } else {
+            Fragment currentFragment = fragmentManager.findFragmentById(R.id.single_pane_container);
+            if (currentFragment instanceof MasterFragment) {
+                DetailFragment detailFragment = DetailFragment.newInstance();
+                fragmentManager.beginTransaction()
+                        .setReorderingAllowed(true)
+                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                        .detach(currentFragment)
+                        .add(R.id.single_pane_container, detailFragment, "detail")
+                        .commit();
+            }
+        }
+    }
+
+    private void handleMasterItemReclick() {
+        FragmentManager fragmentManager = getChildFragmentManager();
+        if (viewModel.isTwoPane()) {
+            Fragment detailFragment = fragmentManager.findFragmentById(R.id.detail_container);
+            if (detailFragment instanceof DetailFragment) {
+                fragmentManager.beginTransaction()
+                        .setReorderingAllowed(true)
+                        .remove(detailFragment)
+                        .commit();
+            }
+        }
     }
 
     public boolean onBackPressed() {

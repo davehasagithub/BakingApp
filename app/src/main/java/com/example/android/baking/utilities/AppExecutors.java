@@ -35,7 +35,6 @@ public class AppExecutors {
         return diskIO;
     }
 
-    @SuppressWarnings("unused")
     public Executor mainThread() {
         return mainThread;
     }

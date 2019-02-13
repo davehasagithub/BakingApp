@@ -68,14 +68,4 @@ public abstract class RecipeDao {
     @Transaction
     @Query("SELECT * FROM recipe WHERE id = :id")
     public abstract Recipe getRecipe(int id);
-
-//    @Transaction
-//    @Query("SELECT * FROM recipe WHERE id = :id")
-//    public abstract LiveData<Recipe> getRecipeLiveData(int id);
-
-//    @Query("SELECT * FROM step WHERE id = :id")
-//    public abstract StepDb getStep(int id);
-
-//    @Query("SELECT * FROM step WHERE recipeId = :recipeId and `index` = :index")
-//    public abstract StepDb getStep(int recipeId, int index);
 }

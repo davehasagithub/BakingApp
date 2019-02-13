@@ -1,7 +1,7 @@
 package com.example.android.baking;
 
-import com.example.android.baking.ui.main.MainActivity;
-import com.example.android.baking.ui.main.RecipeAdapter;
+import com.example.android.baking.ui.MainActivity;
+import com.example.android.baking.ui.recipe.RecipeAdapter;
 import com.example.android.baking.utilities.EspressoIdlingResource;
 
 import org.junit.After;
@@ -51,6 +51,9 @@ public class RecipeNavigationTest {
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getIdlingResource());
     }
 
+    /**
+     * @see RecipeAdapter#RECIPE_NAME_FOR_TEST
+     */
     @Test
     public void myTest() {
 

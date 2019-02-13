@@ -1,12 +1,21 @@
 package com.example.android.baking.data.struct;
 
-import com.example.android.baking.ui.masterdetail.MasterAdapter;
+import com.example.android.baking.ui.steps.MasterDetailFragment;
+import com.example.android.baking.ui.steps.master.MasterAdapter;
 
 import java.util.List;
 
 import androidx.core.util.ObjectsCompat;
 
+/**
+ * Data structures for view types shown in MasterAdapter and DetailAdapter. Using
+ * this as a wrapper to allow either a list of ingredients or a cooking step.
+ *
+ * @see MasterDetailFragment#createMasterItems(Recipe)
+ */
 public abstract class MasterItem {
+    private static final int MASTER_ITEM_INGREDIENTS_BUTTON_ID = Integer.MAX_VALUE;
+
     private final int viewType;
 
     MasterItem(int viewType) {
@@ -24,8 +33,10 @@ public abstract class MasterItem {
 
     public abstract int getId();
 
+    // Ingredients
     public static class MasterItemIngredientsButton extends MasterItem {
         private final List<IngredientDb> ingredients;
+
         public MasterItemIngredientsButton(List<IngredientDb> ingredients) {
             super(MasterAdapter.VIEW_TYPE_INGREDIENTS_BUTTON);
             this.ingredients = ingredients;
@@ -33,7 +44,7 @@ public abstract class MasterItem {
 
         @Override
         public int getId() {
-            return -1234;
+            return MASTER_ITEM_INGREDIENTS_BUTTON_ID;
         }
 
         @Override
@@ -55,8 +66,10 @@ public abstract class MasterItem {
         }
     }
 
+    // Cooking step
     public static class MasterItemStep extends MasterItem {
         private final StepDb step;
+
         public MasterItemStep(StepDb step) {
             super(MasterAdapter.VIEW_TYPE_STEP);
             this.step = step;

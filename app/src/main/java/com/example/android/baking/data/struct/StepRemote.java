@@ -5,7 +5,7 @@ import com.squareup.moshi.Json;
 @SuppressWarnings({"unused", "WeakerAccess"})
 class StepRemote {
 
-    // ignoring json name = "id", making an index in StepDb.getStepList
+    // ignore json name = "id", use autoGenerate id in StepDb
 
     private String shortDescription;
 

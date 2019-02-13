@@ -1,4 +1,4 @@
-package com.example.android.baking.ui.main;
+package com.example.android.baking.ui;
 
 import android.app.Application;
 import android.content.Context;
@@ -31,6 +31,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     final private MutableLiveData<List<Recipe>> placeholdersLiveData = new MutableLiveData<>();
     final private MutableLiveData<Event<Boolean>> handleRecipeClickLiveData = new MutableLiveData<>();
 
+    // return placeholders or the real recipes, depending on the status of service call
     final private LiveData<List<Recipe>> recipesLiveData = Transformations.switchMap(statusLiveData, new Function<RecipeLoadStatus, LiveData<List<Recipe>>>() {
         @Override
         public LiveData<List<Recipe>> apply(RecipeLoadStatus input) {
@@ -51,8 +52,10 @@ public class MainActivityViewModel extends AndroidViewModel {
             recipeIdLiveData.setValue(recipeId);
             updateRecipes(false);
 
+            // if either the current recipe ID or the recipe list changes, loop through our recipes to find the current recipe object.
+            // this ended up making more sense than having separate room LiveData for the recipe list and the individual recipe.
+            // the same approach is used in MasterDetailFragmentViewModel via a single Transformations.map.
             recipeLiveData.addSource(recipeIdLiveData, currentRecipeId -> findRecipeInListAndAssign(recipesLiveData.getValue(), currentRecipeId));
-
             recipeLiveData.addSource(recipesLiveData, recipes -> findRecipeInListAndAssign(recipes, recipeIdLiveData.getValue()));
         }
     }

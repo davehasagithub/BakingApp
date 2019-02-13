@@ -1,43 +1,31 @@
-package com.example.android.baking;
+package com.example.android.baking.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.example.android.baking.R;
 import com.example.android.baking.data.repo.RecipeRepository;
 import com.example.android.baking.data.struct.Recipe;
 
-public class BakingRemoteViewsService extends RemoteViewsService {
-    @Override
-    public RemoteViewsFactory onGetViewFactory(Intent intent) {
+import timber.log.Timber;
 
-        int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-        Bundle extras = intent.getExtras();
-        if (extras != null) {
-            appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-            //appWidgetId = Integer.valueOf(intent.getData().getSchemeSpecificPart());
-        }
-
-        return new BakingRemoteViewsFactory(getApplicationContext(), appWidgetId);
-    }
-}
-
-class BakingRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     final private Context context;
     private Recipe recipe;
     final private int appWidgetId;
 
-    public BakingRemoteViewsFactory(Context context, int appWidgetId) {
+    WidgetRemoteViewsFactory(Context context, Intent intent) {
         this.context = context;
-        this.appWidgetId = appWidgetId;
+        appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
     @Override
     public void onDataSetChanged() {
+        Timber.d("onDataSetChanged %d", appWidgetId);
         int widgetRecipeId = PreferenceManager.getDefaultSharedPreferences(context).getInt("widgetRecipeId" + appWidgetId, 0);
         recipe = RecipeRepository.getInstance().loadRecipe(context, widgetRecipeId);
     }
@@ -49,8 +37,10 @@ class BakingRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory 
 
     @Override
     public RemoteViews getViewAt(int position) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_row);
+        Timber.d("getViewAt %d %d", appWidgetId, position);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_ingredient_row);
         views.setTextViewText(R.id.appwidget_text1, recipe.getIngredients().get(position).getCombinedAndCleanedIngredientDescription(context));
+        // clicks do nothing item-specific for now, just send to the app
         views.setOnClickFillInIntent(R.id.appwidget_text1, new Intent());
         return views;
     }

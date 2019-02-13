@@ -1,4 +1,4 @@
-package com.example.android.baking.ui.main;
+package com.example.android.baking.ui.recipe;
 
 import android.graphics.Rect;
 import android.view.View;

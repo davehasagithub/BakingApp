@@ -19,7 +19,6 @@ import androidx.room.RoomDatabase;
         version = 1,
         exportSchema = false
 )
-// @TypeConverters(ModelAdapters.class)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "baking";

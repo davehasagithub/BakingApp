@@ -98,7 +98,7 @@ public class StepDb {
         return stepDbs;
     }
 
-    //
+    // do some light cleanup of the input data
 
     public String getCleanedShortDescription() {
         return StepDb.removeEndingPeriod(shortDescription);

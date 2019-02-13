@@ -1,4 +1,4 @@
-package com.example.android.baking.ui.masterdetail;
+package com.example.android.baking.ui.steps.master;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import com.example.android.baking.R;
 import com.example.android.baking.data.struct.MasterItem;
 import com.example.android.baking.data.struct.MasterItem.MasterItemStep;
 import com.example.android.baking.databinding.SharedMasterRowBinding;
-import com.example.android.baking.ui.masterdetail.MasterAdapter.ViewHolder;
+import com.example.android.baking.ui.steps.master.MasterAdapter.ViewHolder;
 
 import java.util.List;
 

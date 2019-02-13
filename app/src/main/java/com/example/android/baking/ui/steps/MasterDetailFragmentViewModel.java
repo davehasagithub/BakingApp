@@ -1,4 +1,4 @@
-package com.example.android.baking.ui.masterdetail;
+package com.example.android.baking.ui.steps;
 
 import com.example.android.baking.data.struct.MasterItem;
 import com.example.android.baking.utilities.Event;
@@ -24,7 +24,9 @@ public class MasterDetailFragmentViewModel extends ViewModel {
     private int manualTapPendingPosition = -1;
     private int manualScrollPendingPosition = -1;
 
-
+    // these two methods are critical to synchronize competing interactions: [scrolling of details] and [tapping of master items].
+    // 1- when the user scrolls the details, a scroll listener updates the position LiveData. an observer then tries to trigger another (programmatic) scroll to that position.
+    // 2- when the user taps a master item, it updates the position LiveData causing an observer to scroll the details. this triggers the scroll listener which tries to again update the position.
     public boolean initiateManualTap(int pendingPosition) {
         if (manualScrollPendingPosition == -1) {
             manualTapPendingPosition = pendingPosition;
@@ -47,7 +49,6 @@ public class MasterDetailFragmentViewModel extends ViewModel {
         return false;
     }
 
-
     final private LiveData<MasterItem> masterItemLiveData = Transformations.map(masterItemIdLiveData, currentMasterItemId -> {
         MasterItem returnItem = null;
         if (currentMasterItemId != null && currentMasterItemId != -1) {
@@ -58,8 +59,8 @@ public class MasterDetailFragmentViewModel extends ViewModel {
                     if (item.getId() == currentMasterItemId) {
                         returnItem = item;
                         masterItemIndexLiveData.setValue(i);
-                        previousItemAvailableLiveData.setValue(i>0);
-                        nextItemAvailableLiveData.setValue(i<items.size()-1);
+                        previousItemAvailableLiveData.setValue(i > 0);
+                        nextItemAvailableLiveData.setValue(i < items.size() - 1);
                         break;
                     }
                 }
@@ -88,7 +89,7 @@ public class MasterDetailFragmentViewModel extends ViewModel {
     }
 
     public int getMasterItemId() {
-        Integer currentMasterItemId =  masterItemIdLiveData.getValue();
+        Integer currentMasterItemId = masterItemIdLiveData.getValue();
         return (currentMasterItemId == null ? -1 : currentMasterItemId);
     }
 

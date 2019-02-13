@@ -1,4 +1,4 @@
-package com.example.android.baking.ui.main;
+package com.example.android.baking.ui.recipe;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.example.android.baking.R;
 import com.example.android.baking.data.struct.Recipe;
 import com.example.android.baking.databinding.SharedMasterRowBinding;
-import com.example.android.baking.ui.main.RecipeAdapter.ViewHolder;
+import com.example.android.baking.ui.recipe.RecipeAdapter.ViewHolder;
 import com.example.android.baking.utilities.EspressoIdlingResource;
 
 import java.util.List;
@@ -27,8 +27,12 @@ import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
 
 public class RecipeAdapter extends ListAdapter<Recipe, ViewHolder> implements DefaultLifecycleObserver {
 
+    // stay non-idle until this recipe is inserted via AdapterDataObserver below. it
+    // seems necessary to do this since the list is initially filled with placeholders.
+    // also, with this, no additional idle handling is needed during the service call
     public static final String RECIPE_NAME_FOR_TEST = "Brownies";
-    public static final int PAYLOAD_UPDATE_BACKGROUND = 0;
+
+    static final int PAYLOAD_UPDATE_BACKGROUND = 0;
 
     final private RecipeAdapterCallback recipeAdapterCallback;
     private AdapterDataObserver adapterDataObserver;

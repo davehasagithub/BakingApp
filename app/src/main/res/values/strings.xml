@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Baking Time!</string>
 
+    <string name="recipe_service_domain">http://go.udacity.com/</string>
+    <string name="recipe_service_endpoint">android-baking-app-json</string>
+
     <string name="retry_button">Retry</string>
     <string name="ingredients_title">Ingredients</string>
     <string name="recipe_serves_how_many">Serves: %1$d</string>

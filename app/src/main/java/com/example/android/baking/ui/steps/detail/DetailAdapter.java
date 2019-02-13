@@ -1,4 +1,4 @@
-package com.example.android.baking.ui.masterdetail;
+package com.example.android.baking.ui.steps.detail;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,9 +9,10 @@ import android.view.ViewGroup;
 
 import com.example.android.baking.R;
 import com.example.android.baking.data.struct.MasterItem;
-import com.example.android.baking.databinding.DetailIngredientsBinding;
-import com.example.android.baking.databinding.DetailStepBinding;
-import com.example.android.baking.ui.masterdetail.DetailAdapter.ViewHolder;
+import com.example.android.baking.databinding.IngredientsBinding;
+import com.example.android.baking.databinding.StepBinding;
+import com.example.android.baking.ui.steps.detail.DetailAdapter.ViewHolder;
+import com.example.android.baking.ui.steps.master.MasterAdapter;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -81,9 +82,9 @@ public class DetailAdapter extends ListAdapter<MasterItem, ViewHolder> implement
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         int layoutId;
         if (viewType == MasterAdapter.VIEW_TYPE_INGREDIENTS_BUTTON) {
-            layoutId = R.layout.detail_ingredients;
+            layoutId = R.layout.ingredients;
         } else if (viewType == MasterAdapter.VIEW_TYPE_STEP) {
-            layoutId = R.layout.detail_step;
+            layoutId = R.layout.step;
         } else {
             throw new IllegalArgumentException("unhandled view type " + viewType);
         }
@@ -125,9 +126,8 @@ public class DetailAdapter extends ListAdapter<MasterItem, ViewHolder> implement
             player.setPlayWhenReady(false);
         }
 
-        int viewType = getItemViewType(position);
-        if (viewType == MasterAdapter.VIEW_TYPE_STEP) {
-            DetailStepBinding binding = (DetailStepBinding) viewHolder.binding;
+        if (getItemViewType(position) == MasterAdapter.VIEW_TYPE_STEP) {
+            StepBinding binding = (StepBinding) viewHolder.binding;
             String url = ((MasterItem.MasterItemStep) getItem(position)).getStep().getVideoUrl();
             boolean hasVideo = !TextUtils.isEmpty(url);
             binding.playerView.setVisibility(!hasVideo ? View.GONE : View.VISIBLE);
@@ -167,12 +167,12 @@ public class DetailAdapter extends ListAdapter<MasterItem, ViewHolder> implement
             Context context = viewHolder.binding.getRoot().getContext();
             int viewType = getItemViewType(position);
             if (viewType == MasterAdapter.VIEW_TYPE_STEP) {
-                DetailStepBinding binding = (DetailStepBinding) viewHolder.binding;
+                StepBinding binding = (StepBinding) viewHolder.binding;
                 binding.setStep(((MasterItem.MasterItemStep) item).getStep());
                 binding.tvRecipeName.setTag("position" + position); // used in espresso test
-                binding.executePendingBindings();
+                binding.executePendingBindings(); // needed for espresso test to consistently scrollToPosition()
             } else if (viewType == MasterAdapter.VIEW_TYPE_INGREDIENTS_BUTTON) {
-                DetailIngredientsBinding binding = (DetailIngredientsBinding) viewHolder.binding;
+                IngredientsBinding binding = (IngredientsBinding) viewHolder.binding;
 
                 IngredientsAdapter adapter = (IngredientsAdapter) binding.recyclerviewIngredients.getAdapter();
                 if (adapter == null) {

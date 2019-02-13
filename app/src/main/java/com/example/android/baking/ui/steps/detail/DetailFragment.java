@@ -1,4 +1,4 @@
-package com.example.android.baking.ui.masterdetail;
+package com.example.android.baking.ui.steps.detail;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,8 +12,9 @@ import android.view.animation.AnimationUtils;
 
 import com.example.android.baking.R;
 import com.example.android.baking.data.struct.MasterItem;
-import com.example.android.baking.databinding.DetailFragmentBinding;
-import com.example.android.baking.ui.masterdetail.DetailAdapter.DetailAdapterCallback;
+import com.example.android.baking.databinding.StepsDetailFragmentBinding;
+import com.example.android.baking.ui.steps.MasterDetailFragmentViewModel;
+import com.example.android.baking.ui.steps.detail.DetailAdapter.DetailAdapterCallback;
 import com.example.android.baking.utilities.SnapOnScrollListener;
 
 import java.util.List;
@@ -29,7 +30,7 @@ import timber.log.Timber;
 
 public class DetailFragment extends Fragment implements DetailAdapterCallback {
 
-    private DetailFragmentBinding binding;
+    private StepsDetailFragmentBinding binding;
     private MasterDetailFragmentViewModel masterDetailFragmentViewModel;
     private DetailAdapter adapter;
 
@@ -44,7 +45,6 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
         super.onAttach(context);
 
         adapter = new DetailAdapter(context, this, getLifecycle());
-        //getLifecycle().addObserver(adapter);
         adapter.setHasStableIds(true);
 
         Fragment parentFragment = getParentFragment();
@@ -65,7 +65,7 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DetailFragmentBinding.inflate(inflater);
+        binding = StepsDetailFragmentBinding.inflate(inflater);
         binding.setMasterDetailFragmentViewModel(masterDetailFragmentViewModel);
         return binding.getRoot();
     }
@@ -97,7 +97,6 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
 
         Integer position = masterDetailFragmentViewModel.getMasterItemIndexLiveData().getValue();
         if (position != null && position != -1) {
-            // after activity killed the initial app restore does a smooth scroll. why?
             binding.recyclerviewDetailItems.scrollToPosition(position);
         }
 
@@ -105,15 +104,13 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
         snapHelper.attachToRecyclerView(binding.recyclerviewDetailItems);
         SnapOnScrollListener snapOnScrollListener = new SnapOnScrollListener(snapHelper, newPosition -> {
             if (masterDetailFragmentViewModel.initiateManualScroll(newPosition)) {
-                Timber.v("initiateManualScroll %d", newPosition);
+                Timber.d("initiateManualScroll %d", newPosition);
                 List<MasterItem> masterItems = masterDetailFragmentViewModel.getMasterItemsLiveData().getValue();
                 if (masterItems != null && newPosition < masterItems.size()) {
                     masterDetailFragmentViewModel.setMasterItemId(masterItems.get(newPosition).getId());
-
-                    // updateSelectedPosition(newPosition);
                 }
             } else {
-                Timber.v("initiateManualScroll %d [ignored]", newPosition);
+                Timber.d("initiateManualScroll %d [ignored]", newPosition);
             }
         });
         binding.recyclerviewDetailItems.addOnScrollListener(snapOnScrollListener);
@@ -128,30 +125,24 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
 
     private void addViewModelObservers() {
         masterDetailFragmentViewModel.getMasterItemsLiveData().observe(getViewLifecycleOwner(), masterItems -> {
-            if (adapter != null) {
-                adapter.submitList(masterItems);
-            }
-        }
+                    if (adapter != null) {
+                        adapter.submitList(masterItems);
+                    }
+                }
         );
 
         masterDetailFragmentViewModel.getMasterItemIndexLiveData().observe(getViewLifecycleOwner(), newPosition -> {
             if (masterDetailFragmentViewModel.initiateManualTap(newPosition)) {
-                Timber.v("initiateManualTap %d", newPosition);
+                Timber.d("initiateManualTap %d", newPosition);
                 if (newPosition != -1) {
-
-                    binding.recyclerviewDetailItems.stopScroll();
+                    binding.recyclerviewDetailItems.stopScroll(); // needed if smoothScrollToPosition is used
                     binding.recyclerviewDetailItems.scrollToPosition(newPosition);
-
-                    binding.recyclerviewDetailItems.post(() -> {
-                    });
-
                 }
             } else {
                 Timber.d("initiateManualTap %d [ignored]", newPosition);
             }
 
             updateSelectedPosition(newPosition);
-
         });
     }
 

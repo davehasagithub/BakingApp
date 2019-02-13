@@ -1,4 +1,4 @@
-package com.example.android.baking.ui.main;
+package com.example.android.baking.ui.recipe;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 import com.example.android.baking.R;
 import com.example.android.baking.data.struct.Recipe;
 import com.example.android.baking.databinding.RecipeFragmentBinding;
+import com.example.android.baking.ui.MainActivityViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +28,6 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.RecipeAdap
     private RecipeAdapter adapter;
 
     private int lastPosition = -1;
-//    private CountingIdlingResource idlingResource;
 
     public static RecipeFragment newInstance() {
         return new RecipeFragment();
@@ -38,17 +38,13 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.RecipeAdap
         super.onAttach(context);
 
         activityViewModel = ViewModelProviders.of((AppCompatActivity) context).get(MainActivityViewModel.class);
-
-//        if (context instanceof MainActivity) {
-//            idlingResource = ((MainActivity) context).getIdlingResource();
-//        }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new RecipeAdapter(this, getLifecycle());//, idlingResource);
+        adapter = new RecipeAdapter(this, getLifecycle());
         adapter.setHasStableIds(true);
     }
 

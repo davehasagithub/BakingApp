@@ -1,4 +1,4 @@
-package com.example.android.baking.ui.masterdetail;
+package com.example.android.baking.ui.steps.detail;
 
 import android.graphics.Rect;
 import android.view.View;
@@ -8,7 +8,7 @@ import com.example.android.baking.R;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-class DetailDecoration extends RecyclerView.ItemDecoration {
+class IngredientsDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         // https://stackoverflow.com/a/49915897
@@ -19,10 +19,10 @@ class DetailDecoration extends RecyclerView.ItemDecoration {
 
         if (position != RecyclerView.NO_POSITION) {
             int padding = parent.getContext().getResources().getDimensionPixelSize(R.dimen.master_padding);
-            outRect.left = padding / 2;
-            outRect.right = padding / 2;
-            //outRect.top = padding;
-            //outRect.bottom = padding;
+            outRect.left = padding;
+            outRect.right = padding;
+            outRect.top = (position == 0 ? padding : 0);
+            outRect.bottom = padding;
         }
     }
 }

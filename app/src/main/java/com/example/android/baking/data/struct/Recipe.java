@@ -61,6 +61,11 @@ public class Recipe {
         return recipeDbs;
     }
 
+    /**
+     * recipe placeholders are shown while waiting for real recipes to load. identified by a unique negative id.
+     *
+     * @see RecipeDb#isPlaceholder()
+     */
     public static List<Recipe> constructPlaceholders(int placeHolderCount) {
         List<Recipe> placeholders = new ArrayList<>();
         for (int i = -placeHolderCount; i < 0; i++) {

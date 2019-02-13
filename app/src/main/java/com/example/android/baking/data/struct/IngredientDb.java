@@ -80,7 +80,8 @@ public class IngredientDb {
 
     public IngredientDb(int recipeId, IngredientRemote ingredient) {
         this.recipeId = recipeId;
-        this.quantity = ""+ingredient.getQuantity();
+        // convert quantity to a string since it's used for display only
+        this.quantity = "" + ingredient.getQuantity();
         this.measure = ingredient.getMeasure();
         this.ingredient = ingredient.getIngredient();
     }
@@ -93,8 +94,7 @@ public class IngredientDb {
         return ingredientDbs;
     }
 
-    //
-
+    // make upper case, remove trailing ".0" on quantity, remove unhelpful measurement of "unit", add spacing for "word(word" and "word,word"
     public Spannable getCombinedAndCleanedIngredientDescription(Context context) {
         StringBuilder s = new StringBuilder();
         s.append(quantity.replaceAll("\\.0$", ""));

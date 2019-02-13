@@ -1,4 +1,4 @@
-package com.example.android.baking.ui.masterdetail;
+package com.example.android.baking.ui.steps.master;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.view.animation.AnimationUtils;
 import com.example.android.baking.R;
 import com.example.android.baking.data.struct.MasterItem;
 import com.example.android.baking.databinding.MasterFragmentBinding;
+import com.example.android.baking.ui.steps.MasterDetailFragment;
+import com.example.android.baking.ui.steps.MasterDetailFragmentViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -130,7 +132,6 @@ public class MasterFragment extends Fragment implements MasterAdapter.MasterAdap
     @Override
     public void onClickItem(int position, MasterItem item) {
         boolean isReclick = isActivePosition(position);
-        // updateSelectedPosition(isReclick || item == null ? -1 : position);
         if (!isReclick || !MasterDetailFragment.AUTO_SELECT_FIRST_ON_TWO_PANE) {
             masterDetailFragmentViewModel.triggerMasterItemLoad(isReclick ? null : item);
         }

@@ -1,4 +1,4 @@
-package com.example.android.baking;
+package com.example.android.baking.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -6,21 +6,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.example.android.baking.databinding.WidgetConfigureBinding;
-import com.example.android.baking.ui.main.MainActivityViewModel;
-import com.example.android.baking.ui.main.RecipeFragment;
+import com.example.android.baking.R;
+import com.example.android.baking.databinding.WidgetConfigureActivityBinding;
+import com.example.android.baking.ui.MainActivityViewModel;
+import com.example.android.baking.ui.recipe.RecipeFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
-public class BakingWidgetConfigureActivity extends AppCompatActivity {
+public class WidgetConfigureActivity extends AppCompatActivity {
 
     private MainActivityViewModel viewModel;
 
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
-    public BakingWidgetConfigureActivity() {
+    public WidgetConfigureActivity() {
         super();
     }
 
@@ -44,10 +45,11 @@ public class BakingWidgetConfigureActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
-        WidgetConfigureBinding binding = DataBindingUtil.setContentView(this, R.layout.widget_configure);
+        WidgetConfigureActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.widget_configure_activity);
         binding.setLifecycleOwner(this);
 
         if (savedInstanceState == null) {
+            // reuse recipe fragment here
             getSupportFragmentManager().beginTransaction().add(R.id.recipe_container, RecipeFragment.newInstance(), "recipe").commit();
         }
 
@@ -59,7 +61,7 @@ public class BakingWidgetConfigureActivity extends AppCompatActivity {
     private void addViewModelObservers() {
         viewModel.getHandleRecipeClickLiveData().observe(this, event -> {
             if (event != null && Boolean.TRUE.equals(event.getContentIfNotHandled())) {
-                Context context = BakingWidgetConfigureActivity.this;
+                Context context = WidgetConfigureActivity.this;
                 PreferenceManager.getDefaultSharedPreferences(context).edit().putInt("widgetRecipeId" + appWidgetId, viewModel.getRecipeId()).apply();
                 BakingWidget.refresh(context);
                 Intent resultValue = new Intent();

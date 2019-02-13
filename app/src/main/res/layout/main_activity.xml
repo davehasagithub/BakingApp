@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.android.baking.ui.main.MainActivityViewModel" />
+            type="com.example.android.baking.ui.MainActivityViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

@@ -14,7 +14,5 @@ public class MyApp extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
-
-        // AndroidThreeTen.init(this);
     }
 }

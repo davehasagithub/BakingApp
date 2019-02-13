@@ -6,13 +6,13 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Url;
 
 public interface ApiInterface {
 
-    @GET("/android-baking-app-json")
-    Call<List<RecipeRemote>> getRecipes();
-
-    @GET("/android-baking-app-json-BAD-FOR-TESTING")
-    Call<List<RecipeRemote>> getRecipesBad();
+    @GET
+        // path comes from R.string.recipe_service_endpoint
+        // found out about this here: https://stackoverflow.com/a/32559579
+    Call<List<RecipeRemote>> getRecipes(@Url String url);
 
 }

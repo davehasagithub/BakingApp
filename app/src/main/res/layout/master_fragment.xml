@@ -8,7 +8,7 @@
 
         <variable
             name="masterDetailFragmentViewModel"
-            type="com.example.android.baking.ui.masterdetail.MasterDetailFragmentViewModel" />
+            type="com.example.android.baking.ui.steps.MasterDetailFragmentViewModel" />
 
     </data>
 

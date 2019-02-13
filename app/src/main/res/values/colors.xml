@@ -21,7 +21,7 @@
 
     <color name="stepScreenBackgroundColor">#ff009900</color>
     <color name="stepScreenTextColor">#ffffffff</color>
-    <color name="stepScreenPlayerShutterColor">#33000000</color>
+    <color name="stepScreenPlayerShutterColor">#ff007700</color>
     <color name="stepScreenPlayerButtonBackgroundColor">#CC000000</color>
 
     <color name="master_detail_separator_color">#ff999999</color>

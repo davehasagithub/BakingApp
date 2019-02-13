@@ -45,6 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/master_padding"
+            app:surface_type="surface_view"
             app:keep_content_on_player_reset="false"
             app:shutter_background_color="@color/stepScreenPlayerShutterColor"
             app:resize_mode="zoom"

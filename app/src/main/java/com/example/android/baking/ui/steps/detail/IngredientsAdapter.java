@@ -1,4 +1,4 @@
-package com.example.android.baking.ui.masterdetail;
+package com.example.android.baking.ui.steps.detail;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.example.android.baking.R;
 import com.example.android.baking.data.struct.IngredientDb;
 import com.example.android.baking.databinding.IngredientRowBinding;
-import com.example.android.baking.ui.masterdetail.IngredientsAdapter.ViewHolder;
+import com.example.android.baking.ui.steps.detail.IngredientsAdapter.ViewHolder;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;

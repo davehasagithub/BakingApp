@@ -64,6 +64,9 @@ public class RecipeDb {
         this.imageUrl = recipe.getImageUrl();
     }
 
+    /**
+     * @see Recipe#constructPlaceholders(int)
+     */
     public boolean isPlaceholder() {
         return getId() < 0;
     }
