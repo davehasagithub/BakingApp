@@ -28,11 +28,8 @@
             android:layout_height="0dp"
             android:scrollbars="horizontal"
             android:paddingBottom="@{safeUnbox(masterDetailFragmentViewModel.getTwoPaneLiveData()) ? @dimen/master_padding : @dimen/space_above_detail_slider_scrollbar}"
-            android:paddingStart="@dimen/master_padding"
-            android:paddingEnd="@dimen/master_padding"
             android:paddingTop="@dimen/master_padding"
             android:scrollbarStyle="outsideOverlay"
-            android:clipToPadding="false"
             style="@style/recipe_scrollbar"
 
             app:layout_constraintLeft_toLeftOf="parent"

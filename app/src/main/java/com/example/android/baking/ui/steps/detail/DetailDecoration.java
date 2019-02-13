@@ -19,8 +19,8 @@ class DetailDecoration extends RecyclerView.ItemDecoration {
 
         if (position != RecyclerView.NO_POSITION) {
             int padding = parent.getContext().getResources().getDimensionPixelSize(R.dimen.master_padding);
-            outRect.left = padding / 2;
-            outRect.right = padding / 2;
+            outRect.left = padding;
+            outRect.right = padding;
         }
     }
 }

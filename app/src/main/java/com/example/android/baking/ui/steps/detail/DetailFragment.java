@@ -12,7 +12,7 @@ import android.view.animation.AnimationUtils;
 
 import com.example.android.baking.R;
 import com.example.android.baking.data.struct.MasterItem;
-import com.example.android.baking.databinding.StepsDetailFragmentBinding;
+import com.example.android.baking.databinding.DetailFragmentBinding;
 import com.example.android.baking.ui.steps.MasterDetailFragmentViewModel;
 import com.example.android.baking.ui.steps.detail.DetailAdapter.DetailAdapterCallback;
 import com.example.android.baking.utilities.SnapOnScrollListener;
@@ -30,7 +30,7 @@ import timber.log.Timber;
 
 public class DetailFragment extends Fragment implements DetailAdapterCallback {
 
-    private StepsDetailFragmentBinding binding;
+    private DetailFragmentBinding binding;
     private MasterDetailFragmentViewModel masterDetailFragmentViewModel;
     private DetailAdapter adapter;
 
@@ -65,7 +65,7 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = StepsDetailFragmentBinding.inflate(inflater);
+        binding = DetailFragmentBinding.inflate(inflater);
         binding.setMasterDetailFragmentViewModel(masterDetailFragmentViewModel);
         return binding.getRoot();
     }
@@ -135,7 +135,7 @@ public class DetailFragment extends Fragment implements DetailAdapterCallback {
             if (masterDetailFragmentViewModel.initiateManualTap(newPosition)) {
                 Timber.d("initiateManualTap %d", newPosition);
                 if (newPosition != -1) {
-                    binding.recyclerviewDetailItems.stopScroll(); // needed if smoothScrollToPosition is used
+                    binding.recyclerviewDetailItems.stopScroll();
                     binding.recyclerviewDetailItems.scrollToPosition(newPosition);
                 }
             } else {
