@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#c88719</color>
     <color name="colorAccent">#00acc1</color>
 
+    <color name="ic_launcher_background">#00ACC1</color>
+
     <color name="cardTextColor">#000000</color>
     <color name="cardSecondRowTextColor">#999999</color>
 
