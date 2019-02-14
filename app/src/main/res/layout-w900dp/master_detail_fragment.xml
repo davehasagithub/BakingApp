@@ -23,7 +23,7 @@
             android:id="@+id/line"
             android:layout_width="1dp"
             android:layout_height="0dp"
-            android:background="@color/master_detail_separator_color"
+            android:background="@color/masterDetailSeparatorColor"
 
             app:layout_constraintLeft_toRightOf="@+id/master_container"
             app:layout_constraintRight_toLeftOf="@+id/detail_container"

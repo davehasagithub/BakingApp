@@ -7,26 +7,24 @@
     <color name="ic_launcher_background">#00ACC1</color>
 
     <color name="cardTextColor">#000000</color>
-    <color name="cardSecondRowTextColor">#999999</color>
+    <color name="cardSecondRowTextColor">#32429B</color>
 
-    <color name="recipe_screen_background_color">#ffffff</color>
-
-    <color name="recipeCardBackgroundColor">#ffe97d</color>
+    <color name="recipeScreenBackgroundColor">#ffffff</color>
+    <color name="recipeCardBackgroundColor">#ffcc80</color>
     <color name="recipeCardBackgroundSelectedColor">#4fc3f7</color>
     <color name="recipeCardBackgroundPlaceholderColor">#eeeeee</color>
 
-    <color name="stepCardBackgroundColor">#ffe97d</color>
-    <color name="stepCardBackgroundSelectedColor">#4fc3f7</color>
-
-    <color name="ingredientsScreenTextColor">#ffffffff</color>
-    <color name="ingredientsScreenBackgroundColor">#ff81B1FF</color>
-
-    <color name="stepScreenBackgroundColor">#ff009900</color>
-    <color name="stepScreenTextColor">#ffffffff</color>
-    <color name="stepScreenPlayerShutterColor">#ff007700</color>
+    <color name="stepScreenBackgroundColor">#75a478</color>
+    <color name="stepCardBackgroundColor">#a5d6a7</color>
+    <color name="stepCardBackgroundSelectedColor">@color/recipeCardBackgroundSelectedColor</color>
+    <color name="stepScreenTextColor">#ffffff</color>
+    <color name="stepScreenPlayerShutterColor">#5B7F5D</color>
     <color name="stepScreenPlayerButtonBackgroundColor">#CC000000</color>
 
-    <color name="master_detail_separator_color">#ff999999</color>
+    <color name="ingredientsScreenTextColor">#ffffff</color>
+    <color name="ingredientsScreenBackgroundColor">#6ab7ff</color>
+
+    <color name="masterDetailSeparatorColor">#999999</color>
 
     <color name="widgetBackgroundColor">@color/colorPrimaryDark</color>
     <color name="widgetHeaderBackgroundColor">@color/colorPrimary</color>
