@@ -117,6 +117,8 @@ public class MasterDetailFragment extends Fragment {
         }
     }
 
+    // this is where much of the magic happens to let this be a single-activity app while still allowing the pane count to change on rotate.
+    // fragments are removed from their old container before adding to new ones. using detach manually rather than fighting with the back stack.
     private void handleChangeInPaneCount(FragmentManager fragmentManager) {
         if (viewModel.isTwoPane() && MasterDetailFragment.AUTO_SELECT_FIRST_ON_TWO_PANE) {
             viewModel.selectFirstMasterItemIfNotSet();
