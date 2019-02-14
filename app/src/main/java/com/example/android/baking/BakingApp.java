@@ -5,7 +5,7 @@ import android.app.Application;
 import timber.log.Timber;
 
 @SuppressWarnings("WeakerAccess")
-public class MyApp extends Application {
+public class BakingApp extends Application {
 
     @Override
     public void onCreate() {

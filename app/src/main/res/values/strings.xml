@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Bakeroo</string>
+    <string name="app_name" translatable="false">Bakeroo</string>
 
-    <string name="recipe_service_domain">http://go.udacity.com/</string>
-    <string name="recipe_service_endpoint">android-baking-app-json</string>
+    <string name="recipe_service_domain" translatable="false">http://go.udacity.com/</string>
+    <string name="recipe_service_endpoint" translatable="false">android-baking-app-json</string>
 
     <string name="retry_button">Retry</string>
     <string name="ingredients_title">Ingredients</string>
