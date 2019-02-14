@@ -134,7 +134,6 @@ public class DetailAdapter extends ListAdapter<MasterItem, ViewHolder> implement
             if (selected) {
                 if (hasVideo) {
                     player.prepare(new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url)));
-                    binding.playerView.setControllerHideOnTouch(true);
 
                     PlayerView currentPlayerView = (currentPlayerViewRef == null ? null : currentPlayerViewRef.get());
                     if (currentPlayerView != null) {
